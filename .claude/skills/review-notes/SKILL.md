@@ -1,6 +1,6 @@
 ---
 name: review-notes
-description: Generate exam-style practice questions from a topic's notes.md and exercises.md into exam_questions.md, calibrated to past performance. Use closer to exam time for a topic.
+description: Generate exam-style practice questions from a topic's notes.md and exercises.md into exam_questions.md, weighting toward concepts not yet covered by existing exercises. Use closer to exam time for a topic.
 ---
 
 # Review-Notes
@@ -10,11 +10,17 @@ for one topic into `exam_questions.md`.
 
 ## Inputs
 
-- `<vault>/<Course>/<Topic>/notes.md`
+- `<vault>/<Course>/<Topic>/notes.md` — may not exist yet or may be empty;
+  if so, there's no source material to draw from, so say that rather than
+  fabricating questions
 - `<vault>/<Course>/<Topic>/exercises.md` (if present) — treat questions
   here as already-covered material, not to be repeated verbatim
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH`.
+Course and topic come from the skill arguments (`<course> <topic>`); if not
+supplied, ask.
+
+Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
+root.
 
 ## What to do
 

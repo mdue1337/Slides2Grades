@@ -46,7 +46,8 @@
 ### Slides-Enhance (Slide + Notes Comparison)
 - Add visual concepts that text notes miss
 - Fill gaps between your notes and slide content
-- Flag contradictions or updates to earlier notes with [UPDATE] or [CAUTION]
+- Flag contradictions or updates to earlier notes using Obsidian callouts:
+  `> [!CAUTION]` for contradictions, `> [!INFO]` for updates/clarifications
 - Preserve existing note structure
 
 ### Review-Notes (Exam Preparation)

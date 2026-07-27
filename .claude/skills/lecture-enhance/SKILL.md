@@ -12,7 +12,11 @@ Enhances `notes.md` for one topic using the raw transcript produced by
 
 - `<vault>/<Course>/<Topic>/transcript_raw.md` — raw lecture transcript
 - `<vault>/<Course>/<Topic>/notes.md` — existing notes for the topic (may be
-  empty)
+  empty or not yet exist; if it doesn't exist, treat it as having no
+  existing content)
+
+Course and topic come from the skill arguments (`<course> <topic>`); if not
+supplied, ask.
 
 Resolve `<vault>` by running `python3 scripts/config.py VAULT_PATH` from the
 repo root.

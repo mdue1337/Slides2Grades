@@ -10,9 +10,15 @@ Generates comprehension questions from `notes.md` for one topic into
 
 ## Inputs
 
-- `<vault>/<Course>/<Topic>/notes.md`
+- `<vault>/<Course>/<Topic>/notes.md` — may not exist yet or may be empty;
+  if so, there's no source material to draw from, so say that rather than
+  fabricating questions
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH`.
+Course and topic come from the skill arguments (`<course> <topic>`); if not
+supplied, ask.
+
+Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
+root.
 
 ## What to do
 

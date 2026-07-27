@@ -12,9 +12,15 @@ what the slides add.
 
 - The slide deck for the topic (PDF, PPTX, or any readable text), read
   directly with the Read tool
-- `<vault>/<Course>/<Topic>/notes.md`
+- `<vault>/<Course>/<Topic>/notes.md` — existing notes for the topic (may
+  not exist yet; if it doesn't, there's nothing to compare against, so
+  treat all slide content as new — no possible contradiction)
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH`.
+Course, topic, and the slide file path come from the skill arguments; if
+not supplied, ask.
+
+Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
+root.
 
 ## What to do
 
@@ -28,10 +34,16 @@ Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH`.
    content:
    - `> [!CAUTION] Slides contradict this: <what the slide says>` for
      direct contradictions
-   - `> [!UPDATE] Slides add/clarify: <what changed>` for clarifications or
+   - `> [!INFO] Slides add/clarify: <what changed>` for clarifications or
      extensions
 4. Preserve all existing structure — this is an append/annotate operation,
    never a rewrite of existing sections.
+5. Where content doesn't fit an existing section, append it under a
+   `## From Slides` heading (create it if it doesn't already exist for
+   this pass).
+6. Follow all formatting rules in `STYLEGUIDE.md` at the repo root
+   (headers, bold key terms, bullet points, code blocks for formulas, UTF-8,
+   wikilinks, no inline HTML).
 
 ## Output
 
