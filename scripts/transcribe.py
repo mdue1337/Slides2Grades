@@ -1,4 +1,5 @@
 import argparse
+import sys
 from pathlib import Path
 
 from config import load_config
@@ -16,7 +17,7 @@ def write_transcript(vault_path: Path, course: str, topic: str, text: str) -> Pa
     topic_dir = vault_path / course / topic
     topic_dir.mkdir(parents=True, exist_ok=True)
     output_path = topic_dir / "transcript_raw.md"
-    output_path.write_text(f"# {topic} - Raw Transcript\n\n{text}\n")
+    output_path.write_text(f"# {topic} - Raw Transcript\n\n{text}\n", encoding="utf-8")
     return output_path
 
 
@@ -27,10 +28,22 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("topic")
     args = parser.parse_args(argv)
 
-    config = load_config()
-    vault_path = Path(config["VAULT_PATH"])
+    try:
+        config = load_config()
+        vault_path = Path(config["VAULT_PATH"])
+    except FileNotFoundError as e:
+        print(str(e), file=sys.stderr)
+        sys.exit(1)
+    except KeyError:
+        print("Missing config key: VAULT_PATH", file=sys.stderr)
+        sys.exit(1)
+
     model_size = config.get("WHISPER_MODEL_SIZE", "large-v3")
     device = config.get("WHISPER_DEVICE", "cuda")
+
+    if not args.audio_path.exists():
+        print(f"Audio file not found: {args.audio_path}", file=sys.stderr)
+        sys.exit(1)
 
     text = transcribe_audio(args.audio_path, model_size, device)
     output_path = write_transcript(vault_path, args.course, args.topic, text)

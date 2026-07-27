@@ -1,3 +1,5 @@
+import os
+import subprocess
 import sys
 from pathlib import Path
 from unittest.mock import MagicMock
@@ -56,3 +58,44 @@ def test_main_writes_transcript_using_config(monkeypatch, tmp_path, capsys):
     output_path = vault_path / "TestCourse" / "TestTopic" / "transcript_raw.md"
     assert output_path.read_text() == "# TestTopic - Raw Transcript\n\nmocked transcript\n"
     assert "Wrote transcript to" in capsys.readouterr().out
+
+
+def test_cli_missing_config_file_handles_gracefully(tmp_path):
+    missing_config_file = tmp_path / "does_not_exist.env"
+    audio_path = tmp_path / "lecture.wav"
+    audio_path.write_bytes(b"")
+
+    script = Path(__file__).resolve().parent.parent / "scripts" / "transcribe.py"
+    result = subprocess.run(
+        [sys.executable, str(script), str(audio_path), "TestCourse", "TestTopic"],
+        capture_output=True,
+        text=True,
+        env={**os.environ, "CONFIG_PATH": str(missing_config_file)},
+    )
+
+    assert result.returncode == 1
+    assert "Traceback" not in result.stderr
+
+
+def test_main_missing_audio_file_exits_cleanly_without_calling_transcribe(monkeypatch, tmp_path, capsys):
+    vault_path = tmp_path / "vault"
+    config_file = tmp_path / "config.env"
+    config_file.write_text(f"VAULT_PATH={vault_path}\n")
+    monkeypatch.setenv("CONFIG_PATH", str(config_file))
+
+    def fail_if_called(*args, **kwargs):
+        raise AssertionError("transcribe_audio should not be called for a missing audio file")
+
+    monkeypatch.setattr("transcribe.transcribe_audio", fail_if_called)
+
+    missing_audio_path = tmp_path / "does_not_exist.wav"
+
+    try:
+        main([str(missing_audio_path), "TestCourse", "TestTopic"])
+        raised = False
+    except SystemExit as e:
+        raised = True
+        assert e.code == 1
+
+    assert raised
+    assert "Audio file not found" in capsys.readouterr().err
