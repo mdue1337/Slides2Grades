@@ -73,3 +73,19 @@ def test_cli_missing_key_exits_nonzero(tmp_path):
     )
 
     assert result.returncode == 1
+
+
+def test_cli_missing_config_file_handles_gracefully(tmp_path):
+    missing_config_file = tmp_path / "does_not_exist.env"
+
+    script = Path(__file__).resolve().parent.parent / "scripts" / "config.py"
+    result = subprocess.run(
+        [sys.executable, str(script), "VAULT_PATH"],
+        capture_output=True,
+        text=True,
+        env={**os.environ, "CONFIG_PATH": str(missing_config_file)},
+    )
+
+    assert result.returncode == 1
+    assert "Traceback" not in result.stderr
+    assert "Config file not found at" in result.stderr

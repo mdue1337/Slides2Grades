@@ -29,7 +29,11 @@ def main() -> None:
         sys.exit(1)
 
     key = sys.argv[1]
-    config = load_config()
+    try:
+        config = load_config()
+    except FileNotFoundError as e:
+        print(str(e), file=sys.stderr)
+        sys.exit(1)
 
     if key not in config:
         print(f"Missing config key: {key}", file=sys.stderr)
