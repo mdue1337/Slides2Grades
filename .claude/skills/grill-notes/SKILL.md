@@ -31,7 +31,10 @@ Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH`.
 **A**: [Answer with reasoning]
 ```
 
-5. Append new questions to the end of `exercises.md` (create it with a
+5. Follow all formatting rules in `STYLEGUIDE.md` at the repo root (bold
+   key terms, bullet points, no inline HTML, UTF-8) within each answer,
+   not just the Q&A block shape.
+6. Append new questions to the end of `exercises.md` (create it with a
    `# <Topic>` header first if it doesn't exist). Never delete or renumber
    existing questions — continue numbering from the highest existing
    question number.
