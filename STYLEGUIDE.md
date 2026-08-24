@@ -2,8 +2,18 @@
 
 ## Vault Structure
 - Level 1: Course Name
+- Level 1 files: begreber.md (one glossary for the whole course)
+- Level 1 folders: Literature/, Images/
 - Level 2: Topic Name
 - Level 3: notes.md, exercises.md, exam_questions.md, flashcards.md
+
+`begreber.md` is deliberately course-level, not topic-level: a glossary split
+across topic folders cannot be reviewed as a set, which is the only thing a
+glossary is for.
+
+Note bodies come from the vault's own Obsidian template
+(`<vault>/_templates/topic-note.md`), not from `scripts/makenotes.sh`, which
+creates directories and the course-level `begreber.md` stub only.
 
 ## Format Rules
 - Use markdown headers (# ## ###)
@@ -61,6 +71,21 @@
 **Format**: [Multiple Choice / Short Answer / Essay]
 **Q**: [Question]
 **Suggested Answer**: [Answer]
+```
+
+### Begreber-Extract (Course Glossary)
+- Target is the **course-level** `begreber.md`, never a per-topic file
+- Group entries by topic so provenance survives and appends stay additive
+- Definitions in own-words prose; never copy the textbook's phrasing
+- Omit **Why it matters** rather than padding it
+- Format:
+```
+## Topic Name
+
+### Term
+**Definition**: [own words, one or two sentences]
+**Why it matters**: [what it's used for in this course]
+**Source**: [[Topic Name]]
 ```
 
 ## Flashcards Format
