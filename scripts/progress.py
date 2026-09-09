@@ -1,4 +1,5 @@
 import argparse
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -7,6 +8,26 @@ from config import load_config
 
 LECTURE_MARKER = "[FROM LECTURE]"
 SLIDES_MARKER = "[FROM SLIDES]"
+
+
+def _ever_existed_in_git(vault_path: Path, path: Path) -> bool:
+    """True if `path` shows up anywhere in the vault's git history, even if
+    it's been deleted from the working tree since. This vault's sync routine
+    deletes transcript_raw.md files after the fact, so on-disk existence
+    can't be trusted as "was this ever transcribed" — git history can.
+    Degrades to False (never crashes) if git or the repo isn't available.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "--all", "--oneline", "--", str(path.relative_to(vault_path))],
+            cwd=vault_path,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return result.returncode == 0 and bool(result.stdout.strip())
 
 
 @dataclass
@@ -32,15 +53,21 @@ def _week_number(week_dir_name: str) -> int:
 
 def scan_topics(vault_path: Path, semester: str) -> list[TopicStatus]:
     """Walk every <Course>/Week N/<NN - Title>.md under the semester folder and
-    derive pipeline status from what's actually on disk.
+    derive pipeline status from the vault's files and git history.
 
     Detection is inherently limited: `cleanup` strips [FROM LECTURE] /
     [FROM SLIDES] markers by design, so a topic that was enhanced then cleaned
     looks identical, from marker text alone, to one that was cleaned without
-    ever being enhanced. `enhanced` and `slides_enhanced` are therefore
-    cumulative with the later stage (a cleaned topic counts as enhanced) —
-    this can't catch the rare case of a transcript sitting untouched next to
-    an already-clean note.
+    ever being enhanced. `enhanced` is cumulative with `cleaned` (a cleaned
+    topic counts as enhanced, since enhance is a mandatory step cleanup
+    always follows) — this can't catch the rare case of a transcript sitting
+    untouched next to an already-clean note. `slides_enhanced` is NOT
+    cumulative with `cleaned`, because slides-enhance is optional and
+    parallel rather than a mandatory prerequisite — it only reflects the
+    literal marker, so it goes dark for good once a topic is cleaned without
+    ever having been slides-enhanced. `transcribed` falls back to git history
+    rather than trusting on-disk existence alone, since transcript_raw.md
+    files get deleted from this vault after the fact.
     """
     semester_dir = vault_path / semester
     rows: list[TopicStatus] = []
@@ -52,10 +79,15 @@ def scan_topics(vault_path: Path, semester: str) -> list[TopicStatus]:
         sibling_dir = topic_path.with_suffix("")
         text = topic_path.read_text(encoding="utf-8")
 
-        transcribed = (sibling_dir / "transcript_raw.md").exists()
+        transcript_path = sibling_dir / "transcript_raw.md"
+        transcribed = transcript_path.exists() or _ever_existed_in_git(vault_path, transcript_path)
         cleaned = transcribed and LECTURE_MARKER not in text
         enhanced = cleaned or LECTURE_MARKER in text
-        slides_enhanced = cleaned or SLIDES_MARKER in text
+        # Not cumulative with cleaned, unlike `enhanced`: slides-enhance is an
+        # optional, parallel step, not a mandatory one cleanup always follows.
+        # Treating it as implied-by-cleaned would hide it from the reminder
+        # list forever on every topic that skips it entirely.
+        slides_enhanced = SLIDES_MARKER in text
 
         rows.append(
             TopicStatus(

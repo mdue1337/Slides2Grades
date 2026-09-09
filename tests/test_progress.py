@@ -1,6 +1,11 @@
+import subprocess
 from pathlib import Path
 
 from progress import main, render_report, scan_topics
+
+
+def _run_git(vault_path, *args):
+    subprocess.run(["git", *args], cwd=vault_path, check=True, capture_output=True)
 
 
 def _write_topic(vault_path, course, week, topic, note_text, transcript=False, flashcards=False, exam=False):
@@ -60,6 +65,51 @@ def test_scan_topics_covers_all_three_pipeline_states(tmp_path):
 
     cleaned = by_topic["03 - Cleaned"]
     assert (cleaned.transcribed, cleaned.enhanced, cleaned.cleaned) == (True, True, True)
+
+
+def test_scan_topics_falls_back_to_git_history_when_transcript_deleted(tmp_path):
+    # This vault's sync routine deletes transcript_raw.md after the fact, so
+    # a topic that was genuinely transcribed (and is now cleaned) must not
+    # read as "not transcribed" just because the raw file is gone from disk.
+    vault_path = tmp_path / "vault"
+    semester = "3. Semester"
+    _write_topic(
+        vault_path / semester,
+        "Course",
+        "Week 1",
+        "01 - Topic",
+        "note body, already cleaned",
+        transcript=True,
+    )
+
+    _run_git(vault_path, "init", "-q")
+    _run_git(vault_path, "config", "user.email", "test@example.com")
+    _run_git(vault_path, "config", "user.name", "Test")
+    _run_git(vault_path, "add", "-A")
+    _run_git(vault_path, "commit", "-q", "-m", "add transcript")
+
+    transcript_path = vault_path / semester / "Course" / "Week 1" / "01 - Topic" / "transcript_raw.md"
+    transcript_path.unlink()
+    _run_git(vault_path, "add", "-A")
+    _run_git(vault_path, "commit", "-q", "-m", "vault backup deletes it")
+
+    rows = scan_topics(vault_path, semester)
+
+    assert transcript_path.exists() is False
+    assert rows[0].transcribed is True
+    assert rows[0].cleaned is True
+
+
+def test_scan_topics_not_transcribed_when_absent_from_disk_and_git(tmp_path):
+    vault_path = tmp_path / "vault"
+    semester = "3. Semester"
+    _write_topic(vault_path / semester, "Course", "Week 1", "01 - Topic", "note body")
+
+    _run_git(vault_path, "init", "-q")
+
+    rows = scan_topics(vault_path, semester)
+
+    assert rows[0].transcribed is False
 
 
 def test_scan_topics_detects_flashcards_and_exam_questions(tmp_path):
