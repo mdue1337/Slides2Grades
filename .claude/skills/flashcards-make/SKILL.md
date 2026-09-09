@@ -1,17 +1,17 @@
 ---
 name: flashcards-make
-description: Generate spaced-repetition flashcards from a topic's notes.md into flashcards.md. Use any time after notes.md has meaningful content for a topic.
+description: Generate spaced-repetition flashcards from a topic's note into flashcards.md. Use any time after the note has meaningful content for a topic.
 ---
 
 # Flashcards-Make
 
-Generates flashcards from `notes.md` for one topic into `flashcards.md`.
+Generates flashcards from a topic's note into `flashcards.md`.
 
 ## Inputs
 
-- `<vault>/<Course>/<Topic>/notes.md` — may not exist yet or may be empty;
-  if so, there's no source material to draw from, so say that rather than
-  fabricating cards
+- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
+  yet or may be empty; if so, there's no source material to draw from, so say
+  that rather than fabricating cards
 
 Course and topic come from the skill arguments (`<course> <topic>`); if not
 supplied, ask.
@@ -21,7 +21,7 @@ root.
 
 ## What to do
 
-1. Read `notes.md`.
+1. Read the topic note.
 2. Extract discrete, atomic facts, definitions, and relationships suitable
    for spaced repetition — one clear question per card, one clear answer.
    Avoid multi-part questions.
@@ -39,4 +39,5 @@ root.
 
 ## Output
 
-Write the updated content to `flashcards.md`.
+Write the updated content to `<vault>/<Course>/Week N/<NN - Title>/flashcards.md`,
+the sibling folder of the note.

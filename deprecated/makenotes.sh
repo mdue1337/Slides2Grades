@@ -2,7 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VAULT_PATH="$(python3 "$SCRIPT_DIR/config.py" VAULT_PATH)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+VAULT_PATH="$(python3 "$REPO_ROOT/scripts/config.py" VAULT_PATH)"
 
 read -p "Enter course name: " course
 read -p "Enter topic name: " topic

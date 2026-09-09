@@ -39,11 +39,12 @@ See `docs/superpowers/specs/2026-07-27-slides2grades-design.md` for the full des
 
 | Step | Tool | What it does |
 |---|---|---|
-| New topic | `scripts/makenotes.sh` | Scaffolds `<Course>/<Topic>/{notes,exercises,exam_questions,flashcards}.md` in your vault |
+| New topic | (by hand) | Create `<Course>/Week N/` and the `<NN - Title>.md` note in Obsidian |
 | After a lecture recording | `scripts/transcribe.py <audio> <course> <topic>` | Runs faster-whisper locally, writes `transcript_raw.md` |
-| After transcribing | `lecture-enhance` skill | Merges the transcript into `notes.md` |
+| After transcribing | `lecture-enhance` skill | Merges the transcript into the note, marked `[FROM LECTURE]` |
 | After slides are posted | `slides-enhance` skill | Adds what slides cover that notes miss, flags contradictions |
-| To self-check understanding | `grill-notes` skill | Generates comprehension questions into `exercises.md` |
+| When a note has got long | `cleanup` skill | Rewrites the note down to note level and rebuilds its glossary section. Destructive; git is the undo |
+| To refresh only the glossary | `begreber-extract` skill | Rebuilds a topic's section of `<Course>/Begreber.md`. Rewrites that section; git is the undo |
 | Closer to exam time | `review-notes` skill | Generates exam-style questions into `exam_questions.md` |
 | Any time | `flashcards-make` skill | Generates spaced-repetition cards into `flashcards.md` |
 
@@ -54,5 +55,5 @@ auto-chaining pipeline.
 
 ```bash
 python3 -m pytest -v
-bash tests/test_makenotes.sh
+bash deprecated/test_makenotes.sh   # deprecated tool, kept working
 ```

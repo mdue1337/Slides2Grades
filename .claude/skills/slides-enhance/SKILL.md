@@ -1,20 +1,20 @@
 ---
 name: slides-enhance
-description: Compare a slide deck against a topic's notes.md, adding visual concepts the notes miss and flagging contradictions. Use after new lecture slides are posted for a topic.
+description: Compare a slide deck against a topic's note, adding visual concepts the notes miss and flagging contradictions. Use after new lecture slides are posted for a topic.
 ---
 
 # Slides-Enhance
 
-Compares slides against `notes.md` for one topic and enhances the notes with
-what the slides add.
+Compares slides against a topic's note and enhances the note with what the
+slides add.
 
 ## Inputs
 
 - The slide deck for the topic (PDF, PPTX, or any readable text), read
   directly with the Read tool
-- `<vault>/<Course>/<Topic>/notes.md` — existing notes for the topic (may
-  not exist yet; if it doesn't, there's nothing to compare against, so
-  treat all slide content as new — no possible contradiction)
+- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note (may not exist
+  yet; if it doesn't, there's nothing to compare against, so treat all slide
+  content as new — no possible contradiction)
 
 Course, topic, and the slide file path come from the skill arguments; if
 not supplied, ask.
@@ -24,12 +24,12 @@ root.
 
 ## What to do
 
-1. Read the slide deck and `notes.md`.
+1. Read the slide deck and the topic note.
 2. Identify concepts, diagrams, or relationships present in the slides but
-   missing or under-explained in `notes.md` — add them, following
+   missing or under-explained in the note — add them, following
    `STYLEGUIDE.md` formatting.
-3. If a slide contradicts or updates something already written in
-   `notes.md` (e.g. a formula, a definition, a complexity claim), do not
+3. If a slide contradicts or updates something already written in the note
+   (e.g. a formula, a definition, a complexity claim), do not
    silently overwrite it. Insert a callout directly above the conflicting
    content:
    - `> [!CAUTION] Slides contradict this: <what the slide says>` for
@@ -47,4 +47,4 @@ root.
 
 ## Output
 
-Write the updated content back to `notes.md`.
+Write the updated content back to `<NN - Title>.md`.
