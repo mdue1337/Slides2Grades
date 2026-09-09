@@ -53,13 +53,16 @@ complete.
 - Any restatement of something already stated elsewhere in the same file
 - Filler and transitional sentences
 
-**A one-line "why/when"** is allowed where a formula needs a hook. Not on
-every line. If the line does not change how the formula is used, cut it.
+**A one or two sentence "why/when"** is allowed where a formula needs a
+hook. Not on every line. If it does not change how the formula is used, cut
+it.
 
 **Never touch:** image embeds (`![[...]]`), wikilinks, or the note's language.
 
 **Never invent a heading scheme.** This covers `**Bold**` structural labels as
-well as `#` headings — keep the note's own.
+well as `#` headings — keep the note's own. "Never invent" forbids adding,
+renaming or renumbering headings. A heading left with no surviving content is
+removed.
 
 ## Content Quality Standards
 - **Density**: essential information, no bloat
@@ -95,6 +98,7 @@ well as `#` headings — keep the note's own.
 - Vary question formats: definition, application, synthesis
 - Include difficulty level: [Easy], [Medium], [Hard]
 - Include topic tags: #topic-name
+- Difficulty should calibrate to user performance
 - Format:
 
 ```
@@ -116,14 +120,22 @@ well as `#` headings — keep the note's own.
   alphabetical.
 - A term defined in more than one note gets **one** entry, under the note that
   defines it first. Check every section for it, including near-duplicates.
+  When a term already appears under a topic that is not being processed, leave
+  it there and do not re-add it, even if the processed note defines it
+  earlier. Re-run the earlier topic to move it.
 - Definitions in own-words prose, never the textbook's phrasing. LaTeX
   preserved. Same language as the source note.
 - Omit the "why" clause rather than padding it.
 - **Derived, not accumulated:** for each topic processed, delete any existing
   content for that topic — new-format section, old-format `## Topic` section,
-  or scattered legacy entries — and rebuild it from the note. Never migrate.
-  Sections for topics not being processed are left byte-for-byte alone, and
-  are read only for cross-topic deduplication.
+  or scattered legacy entries naming it — and rebuild it from the note. Never
+  migrate. Sections for topics not being processed are left byte-for-byte
+  alone, and are read only for cross-topic deduplication.
+- Legacy entries that name no topic — a hand-written area grouped by theme,
+  say — are left in place. Such an area is not a topic section: it neither
+  blocks a term from being emitted nor counts as old format to be wiped. A
+  term re-emitted under a processed topic is removed from it; nothing else
+  there is touched.
 
 Example:
 
