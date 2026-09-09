@@ -48,11 +48,12 @@ content comes from the vault's Obsidian template at
 `<vault>/_templates/topic-note.md`. Don't reintroduce scaffolding into the
 active scripts.
 
-**`Begreber.md` is course-level.** Every other skill reads and writes inside
-`<Course>/<Topic>/`; `begreber-extract` is the one that writes one level up, to
-`<Course>/Begreber.md`. That is intentional — a glossary fragmented across topic
-folders can't be reviewed as a set before an exam. Preserve this if you touch
-path resolution in that skill.
+**`Begreber.md` is course-level.** Every other skill reads and writes the
+topic note itself, `<Course>/Week N/<NN - Title>.md` (with its sibling
+`<NN - Title>/` folder holding `transcript_raw.md`); `begreber-extract` is the
+one that writes one level up, to `<Course>/Begreber.md`. That is intentional —
+a glossary fragmented across topic folders can't be reviewed as a set before
+an exam. Preserve this if you touch path resolution in that skill.
 
 **`faster-whisper` is imported lazily** inside `transcribe_audio()` in
 `scripts/transcribe.py`, not at module level. This is deliberate: it lets the test
@@ -68,11 +69,11 @@ Preserve this when touching transcription error handling.
 
 | Skill | Reads | Writes |
 |---|---|---|
-| `lecture-enhance` | `transcript_raw.md` + `notes.md` | `notes.md` (appends `[FROM LECTURE]` sections under `## From Lecture`) |
-| `slides-enhance` | slide deck + `notes.md` | `notes.md` (appends under `## From Slides`; flags conflicts with Obsidian callouts: `> [!CAUTION]` for contradictions, `> [!INFO]` for updates) |
+| `lecture-enhance` | sibling `transcript_raw.md` + topic note | topic note (appends `[FROM LECTURE]` sections under `## From Lecture`) |
+| `slides-enhance` | slide deck + topic note | topic note (appends under `## From Slides`; flags conflicts with Obsidian callouts: `> [!CAUTION]` for contradictions, `> [!INFO]` for updates) |
 | `cleanup` | topic note + `Begreber.md` | topic note (rewritten to note level) + `<Course>/Begreber.md` (topic's section rebuilt) |
-| `review-notes` | `notes.md` + `exercises.md` | `exam_questions.md` (exam-format questions weighted toward concepts `exercises.md` under-covers; never deletes existing questions) |
-| `flashcards-make` | `notes.md` | `flashcards.md` (`[Difficulty] Question \| Answer`, skips near-duplicates of existing cards, never deletes existing cards) |
+| `review-notes` | topic note + `exercises.md` | `exam_questions.md` (exam-format questions weighted toward concepts `exercises.md` under-covers; never deletes existing questions) |
+| `flashcards-make` | topic note | `flashcards.md` (`[Difficulty] Question \| Answer`, skips near-duplicates of existing cards, never deletes existing cards) |
 | `begreber-extract` | topic note | `<Course>/Begreber.md` (topic's section rebuilt, one line per term) |
 
 Every skill resolves the vault via `python3 scripts/config.py VAULT_PATH` from the
@@ -89,7 +90,9 @@ textbook and something has to subtract. The vault is a git repo, so `git
 diff` reviews the change and `git checkout` reverts it.
 
 **`tests/fixtures/sample_topic/`** holds shared fixture data (a binary-search-tree
-example: `notes.md`, `transcript_raw.md`, `slides.md`, `exercises.md`) used to
+example: `notes.md`, `notes_bloated.md` — a deliberately over-written note the
+`cleanup` walk-through verifies against, `transcript_raw.md`, `slides.md`,
+`exercises.md`) used to
 manually verify skill behavior — Claude Code's Skill tool can fail to discover
 project skills created or modified mid-session (a session-caching limitation), so
 skill changes are verified by manually walking through the SKILL.md's own
