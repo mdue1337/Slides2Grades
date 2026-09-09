@@ -44,7 +44,7 @@ See `docs/superpowers/specs/2026-07-27-slides2grades-design.md` for the full des
 | After transcribing | `lecture-enhance` skill | Merges the transcript into the note, marked `[FROM LECTURE]` |
 | After slides are posted | `slides-enhance` skill | Adds what slides cover that notes miss, flags contradictions |
 | When a note has got long | `cleanup` skill | Rewrites the note down to note level and rebuilds its glossary section. Destructive; git is the undo |
-| To refresh only the glossary | `begreber-extract` skill | Rebuilds a topic's section of `<Course>/Begreber.md` |
+| To refresh only the glossary | `begreber-extract` skill | Rebuilds a topic's section of `<Course>/Begreber.md`. Rewrites that section; git is the undo |
 | Closer to exam time | `review-notes` skill | Generates exam-style questions into `exam_questions.md` |
 | Any time | `flashcards-make` skill | Generates spaced-repetition cards into `flashcards.md` |
 

@@ -91,8 +91,10 @@ diff` reviews the change and `git checkout` reverts it.
 
 **`tests/fixtures/sample_topic/`** holds shared fixture data (a binary-search-tree
 example: `notes.md`, `notes_bloated.md` — a deliberately over-written note the
-`cleanup` walk-through verifies against, `transcript_raw.md`, `slides.md`,
-`exercises.md`) used to
+`cleanup` walk-through verifies against, `Begreber_legacy.md` — a glossary
+holding both an old-format topic section and a hand-written theme-organised
+area, for walking `cleanup`'s Phase 2 rewrite against, `transcript_raw.md`,
+`slides.md`, `exercises.md`) used to
 manually verify skill behavior — Claude Code's Skill tool can fail to discover
 project skills created or modified mid-session (a session-caching limitation), so
 skill changes are verified by manually walking through the SKILL.md's own

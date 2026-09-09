@@ -25,6 +25,19 @@ Requires the keys to be **totally ordered** — no BST over an unordered type.
 > **Trap:** the worst case is not exotic. Inserting already-sorted data gives
 > a linked list, not a tree.
 
+## Traversal and deletion
+**In-order** — left, node, right; yields the keys in sorted order.
+
+**Deletion cases**
+- No child: remove the node.
+- One child: splice the child in.
+- Two children: replace with the in-order successor, then delete that
+  successor.
+
+- [FROM LECTURE] Et **in-order**-gennemløb besøger venstre undertræ, så noden,
+  så højre undertræ, og giver nøglerne i sorteret rækkefølge. Sletning af en
+  node med to børn er den eneste sletning der flytter en anden nøgle.
+
 ## Proof that in-order traversal is sorted
 We argue by induction on the height of the tree. For the base case, a tree of
 height 0 is empty and the empty sequence is trivially sorted. For the
