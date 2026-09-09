@@ -22,7 +22,7 @@ pip install -r requirements-dev.txt     # pytest
 python3 -m pytest -v                    # all Python tests
 python3 -m pytest tests/test_config.py -v          # single file
 python3 -m pytest tests/test_config.py::test_name -v  # single test
-bash tests/test_makenotes.sh            # bash test for makenotes.sh (not pytest-collected)
+bash deprecated/test_makenotes.sh       # deprecated tool, kept working (not pytest-collected)
 ```
 
 ## Architecture
@@ -30,9 +30,9 @@ bash tests/test_makenotes.sh            # bash test for makenotes.sh (not pytest
 **The config seam.** `scripts/config.py`'s `load_config()` is the single source of
 truth for finding the vault: resolution order is explicit path arg → `CONFIG_PATH`
 env var → `<repo root>/config.env`. Every other script and skill goes through this
-seam rather than reading `config.env` directly — `scripts/makenotes.sh` shells out
-to `python3 scripts/config.py VAULT_PATH`, and `scripts/transcribe.py` imports
-`load_config` directly. When adding a new script or skill that needs the vault
+seam rather than reading `config.env` directly — `scripts/transcribe.py` imports
+`load_config` directly, and skills shell out to `python3 scripts/config.py
+VAULT_PATH`. When adding a new script or skill that needs the vault
 path, follow this same pattern instead of re-parsing `config.env`.
 
 **Scripts vs. skills — different invocation models.** `scripts/*` are plain files
@@ -42,16 +42,15 @@ repo root, or absolute). The six `.claude/skills/*/SKILL.md` files are Claude Co
 inside this repo. They are not available when Claude Code is opened in `note-vault`
 or elsewhere.
 
-**`makenotes.sh` creates directories, not note bodies.** It scaffolds
-`<Course>/{Literature,Images}`, `<Course>/<Topic>/`, and a `<Course>/begreber.md`
-stub — nothing else. Note content comes from the vault's Obsidian template at
-`<vault>/_templates/topic-note.md` (inserted manually in Obsidian), and each
-skill creates its own output file on first run. Don't reintroduce file-body
-creation here; two sources of note structure would drift apart.
+**`makenotes.sh` is deprecated.** It lives in `deprecated/` and is not part
+of any workflow. Course and week folders are created by hand, and note
+content comes from the vault's Obsidian template at
+`<vault>/_templates/topic-note.md`. Don't reintroduce scaffolding into the
+active scripts.
 
-**`begreber.md` is course-level.** Every other skill reads and writes inside
+**`Begreber.md` is course-level.** Every other skill reads and writes inside
 `<Course>/<Topic>/`; `begreber-extract` is the one that writes one level up, to
-`<Course>/begreber.md`. That is intentional — a glossary fragmented across topic
+`<Course>/Begreber.md`. That is intentional — a glossary fragmented across topic
 folders can't be reviewed as a set before an exam. Preserve this if you touch
 path resolution in that skill.
 
@@ -71,17 +70,23 @@ Preserve this when touching transcription error handling.
 |---|---|---|
 | `lecture-enhance` | `transcript_raw.md` + `notes.md` | `notes.md` (appends `[FROM LECTURE]` sections under `## From Lecture`) |
 | `slides-enhance` | slide deck + `notes.md` | `notes.md` (appends under `## From Slides`; flags conflicts with Obsidian callouts: `> [!CAUTION]` for contradictions, `> [!INFO]` for updates) |
-| `grill-notes` | `notes.md` | `exercises.md` (comprehension Q&A, continues numbering, never renumbers/deletes existing questions) |
+| `cleanup` | topic note + `Begreber.md` | topic note (rewritten to note level) + `<Course>/Begreber.md` (topic's section rebuilt) |
 | `review-notes` | `notes.md` + `exercises.md` | `exam_questions.md` (exam-format questions weighted toward concepts `exercises.md` under-covers; never deletes existing questions) |
 | `flashcards-make` | `notes.md` | `flashcards.md` (`[Difficulty] Question \| Answer`, skips near-duplicates of existing cards, never deletes existing cards) |
-| `begreber-extract` | `notes.md` | `<Course>/begreber.md` (course-level glossary, grouped by topic, own-words definitions, skips terms already present) |
+| `begreber-extract` | topic note | `<Course>/Begreber.md` (topic's section rebuilt, one line per term) |
 
 Every skill resolves the vault via `python3 scripts/config.py VAULT_PATH` from the
 repo root, and every skill must follow `STYLEGUIDE.md`'s formatting rules (bold key
 terms, bullet points, no inline HTML, UTF-8, `[[wikilinks]]`) — the authoritative
 formatting source is `STYLEGUIDE.md`, not restated per-skill; skills point to it
-rather than duplicating its rules. All writes are append/annotate, never a rewrite
-of existing content — this is a hard rule across all six skills.
+rather than duplicating its rules. `lecture-enhance`, `slides-enhance`, `review-notes`
+and `flashcards-make` only ever append or annotate — never a rewrite of existing
+content. That is a hard rule for those four.
+
+`cleanup` and `begreber-extract` are the deliberate exceptions: they rewrite
+by design, because the append-only skills are what turn a note into a
+textbook and something has to subtract. The vault is a git repo, so `git
+diff` reviews the change and `git checkout` reverts it.
 
 **`tests/fixtures/sample_topic/`** holds shared fixture data (a binary-search-tree
 example: `notes.md`, `transcript_raw.md`, `slides.md`, `exercises.md`) used to

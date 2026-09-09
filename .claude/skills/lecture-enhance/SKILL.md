@@ -39,6 +39,9 @@ repo root.
    (headers, bold key terms, bullet points, code blocks for formulas, UTF-8,
    wikilinks, no inline HTML).
 
+Markers are deliberate and stay. `cleanup` is the follow-up pass that strips
+them once you have reviewed what was added.
+
 ## Output
 
 Write the updated content back to `notes.md`.

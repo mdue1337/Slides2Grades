@@ -14,7 +14,7 @@
 across topic folders cannot be reviewed as a set, which is the only thing a
 glossary is for.
 
-Course and week folders are created by hand. `scripts/makenotes.sh` is
+Course and week folders are created by hand. `makenotes.sh` is
 deprecated and lives in `deprecated/`.
 
 ## Format Rules
