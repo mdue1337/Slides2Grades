@@ -77,13 +77,14 @@ a sibling `<NN - Title>/` folder. The glossary is `<vault>/<Course>/Begreber.md`
 - Motivation and narrative prose ("the idea is due to Kolmogorov; in real
   experiments S is hopelessly complicated…")
 - Historical background
-- Lecturer asides, exam advice, and course logistics
+- Lecturer asides, and course logistics
 - Proof prose and bevisskitser
 - Any restatement of something already stated elsewhere in the file
 - Filler and transitional sentences
 
 **Keep, compressed:**
 
+- Exam advice
 - Definitions
 - Formulas, in LaTeX, verbatim
 - Conditions of use (`kræver a ≠ 1`, `kræver P(B) > 0`)
@@ -110,6 +111,22 @@ section numbering.
 
 **Idempotence.** On a note already at note level, report "already at note
 level" and write nothing. Re-running must not keep shrinking a note.
+
+**Mixed-language notes.** A note may hold two languages — typically an
+English pre-reading block above Danish lecture content. Merging duplicates
+across that boundary forces a choice. Rule: the note's **dominant** language
+wins, and the duplicate is kept in that language. Never translate content
+that is not a duplicate.
+
+**Bold pseudo-headings.** Notes use `**Bold**` lines as de-facto headings
+alongside real `#` headings. "Never invent a heading scheme" covers both:
+keep the note's bold structural labels as it has them.
+
+**Cross-file duplication is out of scope.** The merge rule is *within one
+file*. Two notes may legitimately both carry a rule — e.g. `01` states
+example 1.10's results and `02` states them again as the anchor for their
+proofs. Cleanup does not deduplicate across notes; at most it may replace a
+restatement with a wikilink when the note itself does not need the content.
 
 **Scope note.** The rules do not distinguish hand-written prose from
 transcript-derived prose. Hand-written narrative is deleted on the same
@@ -271,5 +288,32 @@ are untouched. `python3 -m pytest -v` must still pass.
 - Automatically running `cleanup` after `lecture-enhance`. The repo's
   no-auto-chaining rule stands.
 - Migrating existing glossary entries. They are rebuilt, not migrated.
-- Cleaning the four already-bloated statistics notes. That is a use of the
-  skill, not part of building it.
+- Cleaning `04 - Bayesregel.md`, which still carries `[FROM LECTURE]`
+  markers from an earlier session.
+
+## Validation already performed
+
+The Phase 1 and Phase 2 rules were applied **by hand** to the four bloated
+statistics notes on 2026-09-09, before the skill existed, to check they
+produce something usable:
+
+| Note | Before | After |
+|---|---:|---:|
+| `01 - Mængder, Kardinalitet` | 17,290 | 6,390 |
+| `02 - SS-mål og endelige udfaldsrum` | 18,598 | 7,523 |
+| `03 - Betingede Sandsynligheder & Uafhængighed` | 18,986 | 8,290 |
+| `05 - Diskrete stokastiske variabler og PMF` | 17,826 | 9,542 |
+| **Total** | **72,700** | **31,745** (−56%) |
+
+`Begreber.md` went from 157 lines holding 32 terms to 69 lines holding 64.
+
+Confirmed after the run: no `[FROM LECTURE]` markers remain in the four
+notes, the image embed in `01` survives, and every wikilink resolves. The
+three rules added above (mixed-language, bold pseudo-headings, cross-file
+duplication) were discovered during this run and are the reason it is
+recorded here — the SKILL.md must state them, or a future run will
+re-derive them differently.
+
+These cleaned notes are the reference output. If the written skill produces
+materially different results on the same input, the skill is wrong, not the
+notes.
