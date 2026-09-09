@@ -54,5 +54,6 @@ in `STYLEGUIDE.md`.
 ## Output
 
 Write `<vault>/<Course>/Begreber.md` back in place. Report which terms were
-added, and which were skipped as already defined under another topic. Then
-remind the user that `git diff` in the vault reviews the change.
+added, which were skipped as already defined under another topic, and which
+glossary entries were removed or replaced. Then remind the user that `git diff`
+in the vault reviews the change.
