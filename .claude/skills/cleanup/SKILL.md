@@ -17,8 +17,8 @@ diff` reviews the change and `git checkout` reverts it.
 
 - `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. Accepts more
   than one topic in a single invocation.
-- `<vault>/<Course>/Begreber.md` — the glossary target; create it with a
-  `# Begreber — <Course>` header if it does not exist.
+- `<vault>/<Course>/Begreber.md` — the glossary target, created if absent,
+  per `STYLEGUIDE.md`.
 
 Course and topic come from the skill arguments; if not supplied, ask. Topics
 are named by note filename (`05 - Diskrete stokastiske variabler og PMF`),

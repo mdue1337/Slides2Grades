@@ -106,6 +106,7 @@ well as `#` headings — keep the note's own.
 
 ### Begreber (course glossary)
 - Target is the **course-level** `Begreber.md`, never a per-topic file
+- Created with a `# Begreber — <Course>` header if it does not exist
 - One line per term: `**Term** — definition. Why, only when it earns it.`
 - Provenance comes from the section heading, which is itself a wikilink:
   `## [[NN - Title]]`. No per-entry `Source` line.

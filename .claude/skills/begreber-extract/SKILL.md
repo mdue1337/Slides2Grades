@@ -1,6 +1,6 @@
 ---
 name: begreber-extract
-description: Rebuild a topic's section of the course-level Begreber.md glossary from its note, as one dense line per term. Rewrites; git is the undo. Runs automatically as cleanup's second phase — use this standalone only to refresh the glossary without touching notes.
+description: Rebuild a topic's section of the course-level Begreber.md glossary from its note, as one dense line per term. Rewrites; git is the undo. Cleanup performs this same step itself as its Phase 2 without invoking this skill — use this standalone to refresh the glossary without touching notes.
 ---
 
 # Begreber-Extract
@@ -22,8 +22,8 @@ rewrite.
 - `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
   exist or is empty, say so rather than inventing terms. Accepts more than
   one topic in a single invocation.
-- `<vault>/<Course>/Begreber.md` — the target; create it with a
-  `# Begreber — <Course>` header if it does not exist.
+- `<vault>/<Course>/Begreber.md` — the target, created if absent, per
+  `STYLEGUIDE.md`.
 
 Course and topic come from the skill arguments; if not supplied, ask. Topics
 are named by note filename, not by week folder.
