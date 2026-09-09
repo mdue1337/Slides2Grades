@@ -73,15 +73,8 @@ well as `#` headings — keep the note's own.
   Destructive; git is the undo.
 - Phase 2 rebuilds the course glossary per **Begreber (course glossary)**
   below. Cleanup performs this itself — it never invokes another skill.
-- May merge content stated twice in one file, moving the survivor under
-  whichever *existing* heading fits best.
-- Strips `[FROM LECTURE]` markers.
-- Mixed-language note: the **dominant** language wins when merging a
-  duplicate across the language boundary. Never translate anything that is
-  not a duplicate.
-- Cross-file duplication is out of scope — the merge rule is within one file.
-- Idempotent: on an already-clean note, report "already at note level" and
-  write nothing.
+- The skill's own operational rules (merging, marker stripping, mixed-language
+  handling, idempotence) live in `.claude/skills/cleanup/SKILL.md`.
 
 ### Lecture-Enhance (Audio Transcription Enhancement)
 - Extract high-density statements (facts, definitions, key relationships)

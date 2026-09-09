@@ -39,6 +39,11 @@ Beyond that standard:
    entry. The survivor may move under whichever *existing* heading fits best.
    Never invent a heading scheme, and never replace the note's section
    numbering.
+
+   Content that a merge orphans — a wikilink or image embed that trailed a
+   removed duplicate heading and is not itself duplicated — is never deleted.
+   Move it under the surviving heading it fits by topic; if none fits, leave
+   it where it sits relative to the surrounding content.
 2. **Strip `[FROM LECTURE]` markers.** `lecture-enhance` keeps emitting them;
    they are a review aid between the two passes, not permanent metadata.
 3. **Mixed-language notes.** A note may hold an English pre-reading block
