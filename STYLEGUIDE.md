@@ -1,62 +1,100 @@
 # Styleguide for LLM-Generated Content
 
 ## Vault Structure
-- Level 1: Course Name
-- Level 1 files: begreber.md (one glossary for the whole course)
-- Level 1 folders: Literature/, Images/
-- Level 2: Topic Name
-- Level 3: notes.md, exercises.md, exam_questions.md, flashcards.md
+- Level 1: Course Name (under a semester folder, e.g. `3. Semester/`)
+- Level 1 files: `Begreber.md` — one glossary for the whole course, capital B
+- Level 1 folders: `Literature/`, `Images/`
+- Level 2: `Week N/` folders
+- Level 2 files: `<NN - Title>.md` — the topic note itself
+- Level 2 folders: `<NN - Title>/` — sibling folder holding `transcript_raw.md`
+- Level 3: `exercises.md`, `exam_questions.md`, `flashcards.md`, each created
+  by the skill that writes it, on first run
 
-`begreber.md` is deliberately course-level, not topic-level: a glossary split
+`Begreber.md` is deliberately course-level, not topic-level: a glossary split
 across topic folders cannot be reviewed as a set, which is the only thing a
 glossary is for.
 
-Note bodies come from the vault's own Obsidian template
-(`<vault>/_templates/topic-note.md`), not from `scripts/makenotes.sh`, which
-creates directories and the course-level `begreber.md` stub only.
+Course and week folders are created by hand. `scripts/makenotes.sh` is
+deprecated and lives in `deprecated/`.
 
 ## Format Rules
 - Use markdown headers (# ## ###)
 - Bold for key terms: **concept**
 - Bullet points for lists
-- Code blocks for formulas/code: ```language```
+- LaTeX for maths, preserved verbatim: `$A \cap B$`, `$\bigcup_{i=1}^{n} A_i$`
+- Fenced code blocks for code
 - No inline HTML
 - UTF-8 encoding required
-- Use Obsidian wikilinks for cross-topic references: [[Topic Name]]
+- Obsidian wikilinks for cross-topic references: `[[NN - Title]]`
+
+## Note level
+
+The target shape for a topic note. `cleanup` enforces it; every other skill
+should avoid writing content that violates it.
+
+A note is a reference surface used **while doing exercises**, and it is
+searched in Obsidian. It is not a textbook. Short and scannable beats
+complete.
+
+**Keep, compressed:**
+- Definitions
+- Formulas, in LaTeX, verbatim
+- Conditions of use (`kræver a ≠ 1`, `kræver P(B) > 0`)
+- Traps and warnings
+- Exam advice
+- Named book examples, reduced to bare computations — setup, numbers, answer,
+  no narration
+
+**Delete outright:**
+- Motivation and narrative prose
+- Historical background
+- Lecturer asides and course logistics
+- Proof prose and proof sketches
+- Any restatement of something already stated elsewhere in the same file
+- Filler and transitional sentences
+
+**A one-line "why/when"** is allowed where a formula needs a hook. Not on
+every line. If the line does not change how the formula is used, cut it.
+
+**Never touch:** image embeds (`![[...]]`), wikilinks, or the note's language.
+
+**Never invent a heading scheme.** This covers `**Bold**` structural labels as
+well as `#` headings — keep the note's own.
 
 ## Content Quality Standards
-
-### Notes Clarity
-- **Concept Clarity**: Explain as if for someone unfamiliar with the topic
-- **Density**: Include essential information without bloat
-- **Hierarchical Organization**: Big idea → supporting details → examples
-- **Retrievability**: Content should be findable and scannable
+- **Density**: essential information, no bloat
+- **Hierarchical Organization**: big idea → supporting details → examples
+- **Retrievability**: findable and scannable
 
 ## For Each Skill
 
-### Grill-Notes (Comprehension Questions)
-- Format: Q&A blocks with clear separation
-- Test understanding, not just recall
-- Include range of difficulty levels (easy, medium, hard)
-- Answers should require synthesizing multiple concepts
-- Example format:
-```
-## Question 1 [Easy]
-**Q**: [Question text]
-**A**: [Answer with reasoning]
-```
+### Cleanup (note level + glossary)
+- Phase 1 rewrites the topic note to the **Note level** standard above.
+  Destructive; git is the undo.
+- Phase 2 rebuilds the course glossary per **Begreber (course glossary)**
+  below. Cleanup performs this itself — it never invokes another skill.
+- May merge content stated twice in one file, moving the survivor under
+  whichever *existing* heading fits best.
+- Strips `[FROM LECTURE]` markers.
+- Mixed-language note: the **dominant** language wins when merging a
+  duplicate across the language boundary. Never translate anything that is
+  not a duplicate.
+- Cross-file duplication is out of scope — the merge rule is within one file.
+- Idempotent: on an already-clean note, report "already at note level" and
+  write nothing.
 
 ### Lecture-Enhance (Audio Transcription Enhancement)
 - Extract high-density statements (facts, definitions, key relationships)
 - Ignore filler and repetition
 - Link new content to existing notes with [[wikilinks]]
 - Preserve original note structure when adding
-- Format: Append to existing notes.md, clearly marked as [FROM LECTURE]
+- Format: append to the topic note, clearly marked as `[FROM LECTURE]`.
+  `cleanup` is the follow-up pass that strips those markers.
 
 ### Slides-Enhance (Slide + Notes Comparison)
 - Add visual concepts that text notes miss
 - Fill gaps between your notes and slide content
-- Flag contradictions or updates to earlier notes using Obsidian callouts:
+- Flag contradictions or updates using Obsidian callouts:
   `> [!CAUTION]` for contradictions, `> [!INFO]` for updates/clarifications
 - Preserve existing note structure
 
@@ -64,8 +102,8 @@ creates directories and the course-level `begreber.md` stub only.
 - Vary question formats: definition, application, synthesis
 - Include difficulty level: [Easy], [Medium], [Hard]
 - Include topic tags: #topic-name
-- Difficulty should calibrate to user performance
 - Format:
+
 ```
 ## Question [Difficulty] #tags
 **Format**: [Multiple Choice / Short Answer / Essay]
@@ -73,19 +111,34 @@ creates directories and the course-level `begreber.md` stub only.
 **Suggested Answer**: [Answer]
 ```
 
-### Begreber-Extract (Course Glossary)
-- Target is the **course-level** `begreber.md`, never a per-topic file
-- Group entries by topic so provenance survives and appends stay additive
-- Definitions in own-words prose; never copy the textbook's phrasing
-- Omit **Why it matters** rather than padding it
-- Format:
-```
-## Topic Name
+### Begreber (course glossary)
+- Target is the **course-level** `Begreber.md`, never a per-topic file
+- One line per term: `**Term** — definition. Why, only when it earns it.`
+- Provenance comes from the section heading, which is itself a wikilink:
+  `## [[NN - Title]]`. No per-entry `Source` line.
+- Topic sections ordered by the note's leading number (`01`, `02`, …). A note
+  without a leading number sorts after the numbered ones, by filename.
+- Within a section, terms in **order of first appearance in the note** — not
+  alphabetical.
+- A term defined in more than one note gets **one** entry, under the note that
+  defines it first. Check every section for it, including near-duplicates.
+- Definitions in own-words prose, never the textbook's phrasing. LaTeX
+  preserved. Same language as the source note.
+- Omit the "why" clause rather than padding it.
+- **Derived, not accumulated:** for each topic processed, delete any existing
+  content for that topic — new-format section, old-format `## Topic` section,
+  or scattered legacy entries — and rebuild it from the note. Never migrate.
+  Sections for topics not being processed are left byte-for-byte alone, and
+  are read only for cross-topic deduplication.
 
-### Term
-**Definition**: [own words, one or two sentences]
-**Why it matters**: [what it's used for in this course]
-**Source**: [[Topic Name]]
+Example:
+
+```
+# Begreber — Introduktion til sandsynlighedsteori og statistik
+
+## [[01 - Mængder, Kardinalitet]]
+**Udfaldsrum (S)** — alle mulige udfald; alt andet er delmængder af S.
+**Disjunkte** — $A \cap B = \emptyset$. Forudsætning for aksiom 3.
 ```
 
 ## Flashcards Format
