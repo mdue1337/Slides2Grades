@@ -21,6 +21,7 @@ pip install -r requirements-dev.txt     # pytest
 # Tests
 python3 -m pytest -v                    # all Python tests
 python3 -m pytest tests/test_config.py -v          # single file
+python3 scripts/progress.py "3. Semester"          # regenerate the semester progress tracker
 python3 -m pytest tests/test_config.py::test_name -v  # single test
 bash deprecated/test_makenotes.sh       # deprecated tool, kept working (not pytest-collected)
 ```
@@ -34,6 +35,18 @@ seam rather than reading `config.env` directly — `scripts/transcribe.py` impor
 `load_config` directly, and skills shell out to `python3 scripts/config.py
 VAULT_PATH`. When adding a new script or skill that needs the vault
 path, follow this same pattern instead of re-parsing `config.env`.
+
+**`scripts/progress.py` regenerates `<Semester>/Progress.md`.** It walks every
+`<Course>/Week N/<NN - Title>.md` under the given semester folder and derives
+pipeline status from what's actually on disk — a sibling `transcript_raw.md`
+means transcribed, a `[FROM LECTURE]`/`[FROM SLIDES]` marker still in the note
+means enhanced-but-not-cleaned, no marker (with a transcript present) means
+cleaned. `Enhanced` and `Slides-enhanced` are cumulative with `Cleaned`,
+because `cleanup` erases the marker that would otherwise prove enhancement
+happened — a topic that's been cleaned always reads as enhanced too, even
+though the literal marker is gone. The output is fully regenerated each run,
+same "derived, not accumulated" principle as `Begreber.md` — never hand-edit
+`Progress.md`, rerun the script instead.
 
 **Scripts vs. skills — different invocation models.** `scripts/*` are plain files
 with no PATH/symlink install — they only run via explicit path (relative, from the
