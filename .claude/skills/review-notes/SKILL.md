@@ -1,20 +1,20 @@
 ---
 name: review-notes
-description: Generate exam-style practice questions from a topic's notes.md and exercises.md into exam_questions.md, weighting toward concepts not yet covered by existing exercises. Use closer to exam time for a topic.
+description: Generate exam-style practice questions from a topic's note and exercises.md into exam_questions.md, weighting toward concepts not yet covered by existing exercises. Use closer to exam time for a topic.
 ---
 
 # Review-Notes
 
-Generates exam-format practice questions from `notes.md` and `exercises.md`
-for one topic into `exam_questions.md`.
+Generates exam-format practice questions from a topic's note and its
+`exercises.md` into `exam_questions.md`.
 
 ## Inputs
 
-- `<vault>/<Course>/<Topic>/notes.md` — may not exist yet or may be empty;
-  if so, there's no source material to draw from, so say that rather than
-  fabricating questions
-- `<vault>/<Course>/<Topic>/exercises.md` (if present) — treat questions
-  here as already-covered material, not to be repeated verbatim
+- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
+  yet or may be empty; if so, there's no source material to draw from, so say
+  that rather than fabricating questions
+- `<vault>/<Course>/Week N/<NN - Title>/exercises.md` (if present) — treat
+  questions here as already-covered material, not to be repeated verbatim
 
 Course and topic come from the skill arguments (`<course> <topic>`); if not
 supplied, ask.
@@ -28,7 +28,7 @@ root.
 2. Write exam-style questions varying in format: definition, application,
    and synthesis questions.
 3. If `exercises.md` tests the same concept repeatedly, weight new
-   questions toward concepts from `notes.md` that aren't well covered yet.
+   questions toward concepts from the note that aren't well covered yet.
 4. Format each question per `STYLEGUIDE.md`:
 
 ```
@@ -48,4 +48,5 @@ root.
 
 ## Output
 
-Write the updated content to `exam_questions.md`.
+Write the updated content to `<vault>/<Course>/Week N/<NN - Title>/exam_questions.md`,
+the sibling folder of the note.
