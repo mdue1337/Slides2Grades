@@ -44,12 +44,12 @@ Term selection, in order of preference:
 3. Terms the note defines but does not bold.
 
 Skip terms that are common knowledge in the field rather than course
-vocabulary, and skip anything the note merely mentions without defining.
+vocabulary, and skip anything the note merely mentions without defining. That
+skip wins over preference 1: standard field vocabulary stays out even when the
+note bolds it — bolding marks emphasis in prose as often as it marks a term.
 
-This skill **rewrites**. For each topic processed, delete any existing
-content for that topic and rebuild it from the note — never migrate old
-entries. Sections for other topics are left byte-for-byte alone, and are read
-only so a term is not defined twice across topics.
+This skill **rewrites**; git is the undo. Follow **Derived, not accumulated**
+in `STYLEGUIDE.md`.
 
 ## Output
 
