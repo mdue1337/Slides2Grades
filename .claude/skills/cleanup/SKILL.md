@@ -15,14 +15,16 @@ diff` reviews the change and `git checkout` reverts it.
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. Accepts more
-  than one topic in a single invocation.
+- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
+  exist or is empty, say so rather than inventing content. Accepts more than
+  one topic in a single invocation.
 - `<vault>/<Course>/Begreber.md` — the glossary target, created if absent,
   per `STYLEGUIDE.md`.
 
 Course and topic come from the skill arguments; if not supplied, ask. Topics
 are named by note filename (`05 - Diskrete stokastiske variabler og PMF`),
-not by week folder.
+not by week folder — glob `<vault>/<Course>/Week */<NN - Title>.md` to find
+which week holds the note.
 
 Resolve `<vault>` by running `python3 scripts/config.py VAULT_PATH` from the
 repo root.
@@ -37,8 +39,6 @@ Beyond that standard:
 
 1. **Merge duplicates.** Content stated twice in one file collapses to one
    entry. The survivor may move under whichever *existing* heading fits best.
-   Never invent a heading scheme, and never replace the note's section
-   numbering.
 
    Content that a merge orphans — a wikilink or image embed that trailed a
    removed duplicate heading and is not itself duplicated — is never deleted.
@@ -46,6 +46,11 @@ Beyond that standard:
    it where it sits relative to the surrounding content.
 2. **Strip `[FROM LECTURE]` markers.** `lecture-enhance` keeps emitting them;
    they are a review aid between the two passes, not permanent metadata.
+
+   `## From Lecture` and `## From Slides` are staging areas, not permanent
+   sections: content under them that survives and is not a duplicate moves
+   into the existing section it belongs to, and an append heading left with
+   nothing under it is removed.
 3. **Mixed-language notes.** A note may hold an English pre-reading block
    above Danish lecture content. When merging a duplicate across that
    boundary, the note's **dominant** language wins. Never translate anything
@@ -57,7 +62,17 @@ Beyond that standard:
 5. **Hand-written prose is cut on the same terms** as transcript-derived
    prose. The rules do not distinguish them.
 6. **Idempotence.** If the note is already at note level, report "already at
-   note level" and write nothing. Re-running must not keep shrinking a note.
+   note level" and leave the note byte-for-byte unchanged. Re-running must not
+   keep shrinking a note. Continue to Phase 2 regardless — refreshing a stale
+   glossary against an already-clean note is a legitimate use of this skill.
+
+**Calibration.** The four notes in `<vault>/3. Semester/Introduktion til
+sandsynlighedsteori og statistik/` cleaned by hand — `01 - Mængder,
+Kardinalitet`, `02 - SS-mål og endelige udfaldsrum`, `03 - Betingede
+Sandsynligheder & Uafhængighed` and `05 - Diskrete stokastiske variabler og
+PMF` — are the reference output for how aggressive to be. Read one before a
+first run on a new course. If this skill produces materially different
+results on that input, the skill is wrong, not the notes.
 
 ## Phase 2 — refresh the glossary
 
@@ -75,5 +90,6 @@ Report, per note:
 - rough before/after size
 - which categories were cut
 - which glossary terms were added
+- which glossary entries were removed or replaced
 
 Then remind the user that `git diff` in the vault reviews the change.
