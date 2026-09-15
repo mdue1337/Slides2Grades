@@ -20,6 +20,8 @@ deprecated and lives in `deprecated/`.
 ## Format Rules
 - Use markdown headers (# ## ###)
 - Bold for key terms: **concept**
+- Highlight for calculation formulas: `==...==`, per **Highlight** under
+  **Note level**. Bold and highlight never stand in for each other
 - Bullet points for lists
 - LaTeX for maths, preserved verbatim: `$A \cap B$`, `$\bigcup_{i=1}^{n} A_i$`
 - Fenced code blocks for code
@@ -56,6 +58,26 @@ complete.
 **A one or two sentence "why/when"** is allowed where a formula needs a
 hook. Not on every line. If it does not change how the formula is used, cut
 it.
+
+**Highlight** (`==...==`) marks the formulas used to calculate — a PMF,
+Bayes' rule, the law of total probability, $P(X \in B)=\sum p_X(x)$. Nothing
+else is highlighted:
+- Not notation or ranges ($X: S \to \mathbb{R}$, $R_X=\{\dots\}$).
+- Not equivalent criteria or characterisations ($P(A\cap B)=P(A)P(B) \iff \dots$).
+- Not the numbers inside a worked example.
+- Never inside code, inline or fenced. `==` there is an operator.
+
+Where the highlight goes:
+- **Inline formula:** wrap the formula itself: `==$Pascal(1,p)=Geometric(p)$==`.
+- **Display formula (`$$...$$`):** highlight the label line directly above
+  it — a bold label or a short line ending in a colon: `==**PMF:**==`. The
+  `$$` block itself is never wrapped; Obsidian does not render it.
+- **Display formula with no label line** (directly under a heading, or after
+  a prose sentence): leave it unmarked. Never add a label to make room for a
+  highlight — that invents structure.
+
+Existing highlights are never removed, and a formula already highlighted is
+not highlighted twice.
 
 **Never touch:** image embeds (`![[...]]`), wikilinks, or the note's language.
 

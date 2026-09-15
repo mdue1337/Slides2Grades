@@ -22,11 +22,23 @@ $$h = \Theta(\log n) \text{ if balanced}, \qquad h = \Theta(n) \text{ worst case
 
 Requires the keys to be **totally ordered** — no BST over an unordered type.
 
+**Height of a complete tree:**
+$$h = \lfloor \log_2 n \rfloor$$
+
+A perfect tree of height $h$ holds $n = 2^{h+1}-1$ nodes, and at most
+==$2^{d}$== nodes sit at depth $d$.
+
 > **Trap:** the worst case is not exotic. Inserting already-sorted data gives
 > a linked list, not a tree.
 
 ## Traversal and deletion
 **In-order** — left, node, right; yields the keys in sorted order.
+
+**Lookup**
+```python
+if key == node.key:
+    return node
+```
 
 **Deletion cases**
 - No child: remove the node.
@@ -53,7 +65,8 @@ First we insert 5, which becomes the root because the tree is empty. Then we
 insert 3; we compare it against 5, find it smaller, and go left, where we
 find an empty slot. Then 8, which is larger than 5, so it goes right. Then 1,
 which is smaller than 5 and then smaller than 3, so it ends up as the left
-child of 3. The resulting tree has height 2.
+child of 3. The resulting tree has height 2, and $h = \lfloor \log_2 4 \rfloor = 2$
+checks out.
 ```
      5
     / \

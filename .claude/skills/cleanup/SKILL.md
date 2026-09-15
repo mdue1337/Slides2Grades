@@ -61,9 +61,14 @@ Beyond that standard:
    content.
 5. **Hand-written prose is cut on the same terms** as transcript-derived
    prose. The rules do not distinguish them.
-6. **Idempotence.** If the note is already at note level, report "already at
-   note level" and leave the note byte-for-byte unchanged. Re-running must not
-   keep shrinking a note. Continue to Phase 2 regardless — refreshing a stale
+6. **Highlight calculation formulas.** Last step of the phase, after cutting
+   and merging, so nothing about to be deleted gets highlighted. Follow
+   **Highlight** under **Note level** in `STYLEGUIDE.md` for what qualifies
+   and where the `==` goes.
+7. **Idempotence.** If the note is already at note level, with every
+   qualifying formula already highlighted, report "already at note level" and
+   leave the note byte-for-byte unchanged. Re-running must not keep shrinking
+   a note, nor add, move or remove highlights. Continue to Phase 2 regardless — refreshing a stale
    glossary against an already-clean note is a legitimate use of this skill.
 
 **Calibration.** The four notes in `<vault>/3. Semester/Introduktion til
@@ -72,7 +77,9 @@ Kardinalitet`, `02 - SS-mål og endelige udfaldsrum`, `03 - Betingede
 Sandsynligheder & Uafhængighed` and `05 - Diskrete stokastiske variabler og
 PMF` — are the reference output for how aggressive to be. Read one before a
 first run on a new course. If this skill produces materially different
-results on that input, the skill is wrong, not the notes.
+results on that input, the skill is wrong, not the notes. Highlights are
+excepted: those notes predate the highlight step, so added `==` marks are
+not a difference.
 
 ## Phase 2 — refresh the glossary
 
@@ -89,6 +96,8 @@ Write the cleaned note back in place. Write `Begreber.md` back in place.
 Report, per note:
 - rough before/after size
 - which categories were cut
+- which formulas were highlighted, and which qualifying display formulas were
+  left unmarked for lack of a label line
 - which glossary terms were added
 - which glossary entries were removed or replaced
 
