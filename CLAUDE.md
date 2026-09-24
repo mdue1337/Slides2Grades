@@ -44,9 +44,14 @@ means enhanced-but-not-cleaned, no marker (with a transcript present) means
 cleaned. `Enhanced` and `Slides-enhanced` are cumulative with `Cleaned`,
 because `cleanup` erases the marker that would otherwise prove enhancement
 happened — a topic that's been cleaned always reads as enhanced too, even
-though the literal marker is gone. The output is fully regenerated each run,
-same "derived, not accumulated" principle as `Begreber.md` — never hand-edit
-`Progress.md`, rerun the script instead.
+though the literal marker is gone. The Core pipeline table only lists topics
+still missing transcribed/enhanced/cleaned; once all three are true, a topic
+moves into the collapsed "Done" callout beneath it instead of staying listed
+twice. Enrichment and Exam prep stay unfiltered — they track separate,
+optional steps, so a topic remains there regardless of core-pipeline status.
+The output is fully regenerated each run, same "derived, not accumulated"
+principle as `Begreber.md` — never hand-edit `Progress.md`, rerun the script
+instead.
 
 **Scripts vs. skills — different invocation models.** `scripts/*` are plain files
 with no PATH/symlink install — they only run via explicit path (relative, from the

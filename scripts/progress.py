@@ -112,6 +112,9 @@ def _mark(value: bool) -> str:
 
 
 def render_report(rows: list[TopicStatus], semester: str) -> str:
+    pending = [r for r in rows if not (r.transcribed and r.enhanced and r.cleaned)]
+    done = [r for r in rows if r.transcribed and r.enhanced and r.cleaned]
+
     lines = [
         f"# Progress — {semester}",
         "",
@@ -123,10 +126,19 @@ def render_report(rows: list[TopicStatus], semester: str) -> str:
         "| Course | Week | Topic | Transcribed | Enhanced | Cleaned |",
         "|---|---|---|---|---|---|",
     ]
-    for r in rows:
+    for r in pending:
         lines.append(
             f"| {r.course} | {r.week} | {r.topic} | {_mark(r.transcribed)} | {_mark(r.enhanced)} | {_mark(r.cleaned)} |"
         )
+
+    lines += [
+        "",
+        "> [!NOTE]- Done (transcribed, enhanced, cleaned)",
+        "> | Course | Week | Topic |",
+        "> |---|---|---|",
+    ]
+    for r in done:
+        lines.append(f"> | {r.course} | {r.week} | {r.topic} |")
 
     lines += [
         "",

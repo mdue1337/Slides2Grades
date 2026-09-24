@@ -148,7 +148,7 @@ def test_scan_topics_sorts_by_course_then_week_then_topic(tmp_path):
     ]
 
 
-def test_render_report_marks_cleaned_topic_and_hides_exam_table_in_callout(tmp_path):
+def test_render_report_moves_fully_done_topic_to_done_section(tmp_path):
     vault_path = tmp_path / "vault"
     semester = "3. Semester"
     _write_topic(vault_path / semester, "Course", "Week 1", "01 - Topic", "note body", transcript=True, exam=True)
@@ -159,10 +159,29 @@ def test_render_report_marks_cleaned_topic_and_hides_exam_table_in_callout(tmp_p
     assert "# Progress — 3. Semester" in report
     assert "## Core pipeline" in report
     assert "## Enrichment (reminders)" in report
+    assert "> [!NOTE]- Done (transcribed, enhanced, cleaned)" in report
     assert "> [!NOTE]- Exam prep" in report
     assert "| Course | Week | Topic | Transcribed | Enhanced | Cleaned |" in report
-    assert "| Course | 1 | 01 - Topic | ✅ | ✅ | ✅ |" in report
+    # Fully done (transcribed + enhanced + cleaned) topics are pulled out of
+    # the Core pipeline table into the Done callout, not listed twice.
+    assert "| Course | 1 | 01 - Topic | ✅ | ✅ | ✅ |" not in report
+    assert "> | Course | 1 | 01 - Topic |" in report
+    # Enrichment/Exam prep track separate, orthogonal steps, so a topic still
+    # appears there even once it has graduated out of the core pipeline table.
     assert "> | Course | 1 | 01 - Topic | ✅ |" in report
+
+
+def test_render_report_keeps_incomplete_topic_in_core_pipeline_table(tmp_path):
+    vault_path = tmp_path / "vault"
+    semester = "3. Semester"
+    _write_topic(vault_path / semester, "Course", "Week 1", "01 - Topic", "note body")
+    rows = scan_topics(vault_path, semester)
+
+    report = render_report(rows, semester)
+
+    assert "| Course | 1 | 01 - Topic | ⬜ | ⬜ | ⬜ |" in report
+    done_section = report.split("> [!NOTE]- Done")[1].split("## Enrichment")[0]
+    assert "01 - Topic" not in done_section
 
 
 def test_main_writes_progress_file_using_config(monkeypatch, tmp_path, capsys):
