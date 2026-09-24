@@ -37,13 +37,29 @@ def test_transcribe_audio_joins_segment_text(monkeypatch, tmp_path):
     fake_model.transcribe.assert_called_once_with(str(audio_path))
 
 
+def test_transcribe_audio_passes_language_when_given(monkeypatch, tmp_path):
+    fake_model = MagicMock()
+    fake_model.transcribe.return_value = ([], None)
+
+    fake_whisper_module = MagicMock()
+    fake_whisper_module.WhisperModel.return_value = fake_model
+    monkeypatch.setitem(sys.modules, "faster_whisper", fake_whisper_module)
+
+    audio_path = tmp_path / "lecture.wav"
+    audio_path.write_bytes(b"")
+
+    transcribe_audio(audio_path, "large-v3", "cuda", language="da")
+
+    fake_model.transcribe.assert_called_once_with(str(audio_path), language="da")
+
+
 def test_main_writes_transcript_using_config(monkeypatch, tmp_path, capsys):
     vault_path = tmp_path / "vault"
     config_file = tmp_path / "config.env"
     config_file.write_text(f"VAULT_PATH={vault_path}\nWHISPER_MODEL_SIZE=tiny\nWHISPER_DEVICE=cpu\n")
     monkeypatch.setenv("CONFIG_PATH", str(config_file))
 
-    def fake_transcribe_audio(audio_path, model_size, device):
+    def fake_transcribe_audio(audio_path, model_size, device, language):
         assert model_size == "tiny"
         assert device == "cpu"
         return "mocked transcript"
