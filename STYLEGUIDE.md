@@ -17,6 +17,22 @@ glossary is for.
 Course and week folders are created by hand. `makenotes.sh` is
 deprecated and lives in `deprecated/`.
 
+## Course Config (`.courseinfo.yaml`)
+
+Each course folder may hold a `.courseinfo.yaml` file, one level up from
+`Week N/` folders, alongside `Begreber.md`:
+
+```yaml
+exam_type: written   # or: oral
+```
+
+This file is the shared contract between this repo and `Notes2Knowledge`
+(a separate, read-only companion tool): `exam_type` tells Notes2Knowledge
+whether to run Socratic quizzing (`written`) or explain-back practice
+(`oral`) for that course. Slides2Grades itself does not read this file —
+it is documented here because this is the single source of truth for the
+vault's structure, not because Slides2Grades consumes it.
+
 ## Format Rules
 - Use markdown headers (# ## ###)
 - Bold for key terms: **concept**
