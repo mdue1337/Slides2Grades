@@ -7,6 +7,17 @@ tooling only — your actual notes live in a separate Obsidian vault repo (e.g.
 
 See `docs/superpowers/specs/2026-07-27-slides2grades-design.md` for the full design.
 
+## Relationship to Notes2Knowledge
+
+This repo only produces study material — it never checks whether you actually
+learned it. [`Notes2Knowledge`](https://github.com/mdue1337/Notes2Knowledge) is a
+separate, read-only companion tool that quizzes you on the notes this repo
+generates (or has you explain them back), so GenAI stays a study partner instead
+of doing the learning for you. The two repos share one contract: a per-course
+`.courseinfo.yaml` file (schema documented in `STYLEGUIDE.md`) that tells
+Notes2Knowledge which quiz style to use. Slides2Grades itself never reads that
+file — it's documented here because this repo owns the vault's structure.
+
 ## Setup
 
 1. Copy the config template and point it at your vault:
