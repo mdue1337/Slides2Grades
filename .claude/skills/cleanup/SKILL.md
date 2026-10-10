@@ -15,19 +15,20 @@ diff` reviews the change and `git checkout` reverts it.
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
   exist or is empty, say so rather than inventing content. Accepts more than
   one topic in a single invocation.
-- `<vault>/<Course>/Begreber.md` — the glossary target, created if absent,
+- `<vault>/<Semester>/<Course>/Begreber.md` — the glossary target, created if absent,
   per `STYLEGUIDE.md`.
 
 Course and topic come from the skill arguments; if not supplied, ask. Topics
 are named by note filename (`05 - Diskrete stokastiske variabler og PMF`),
-not by week folder — glob `<vault>/<Course>/Week */<NN - Title>.md` to find
+not by week folder — glob `<vault>/<Semester>/<Course>/Week */<NN - Title>.md` to find
 which week holds the note.
 
-Resolve `<vault>` by running `python3 scripts/config.py VAULT_PATH` from the
-repo root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## Phase 1 — clean the note
 
@@ -83,7 +84,7 @@ not a difference.
 
 ## Phase 2 — refresh the glossary
 
-Rebuild the topic's section of `<Course>/Begreber.md` from the *cleaned*
+Rebuild the topic's section of `<vault>/<Semester>/<Course>/Begreber.md` from the *cleaned*
 note, following **Begreber (course glossary)** in `STYLEGUIDE.md`.
 
 Perform this yourself. Do **not** invoke the `begreber-extract` skill — this

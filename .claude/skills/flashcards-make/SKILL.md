@@ -9,15 +9,16 @@ Generates flashcards from a topic's note into `flashcards.md`.
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
   yet or may be empty; if so, there's no source material to draw from, so say
   that rather than fabricating cards
 
 Course and topic come from the skill arguments (`<course> <topic>`); if not
 supplied, ask.
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
-root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## What to do
 
@@ -39,5 +40,5 @@ root.
 
 ## Output
 
-Write the updated content to `<vault>/<Course>/Week N/<NN - Title>/flashcards.md`,
+Write the updated content to `<vault>/<Semester>/<Course>/Week N/<NN - Title>/flashcards.md`,
 the sibling folder of the note.

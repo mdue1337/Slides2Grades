@@ -67,9 +67,9 @@ content comes from the vault's Obsidian template at
 active scripts.
 
 **`Begreber.md` is course-level.** Every other skill reads and writes the
-topic note itself, `<Course>/Week N/<NN - Title>.md` (with its sibling
+topic note itself, `<Semester>/<Course>/Week N/<NN - Title>.md` (with its sibling
 `<NN - Title>/` folder holding `transcript_raw.md`); `begreber-extract` is the
-one that writes one level up, to `<Course>/Begreber.md`. That is intentional —
+one that writes one level up, to `<Semester>/<Course>/Begreber.md`. That is intentional —
 a glossary fragmented across topic folders can't be reviewed as a set before
 an exam. Preserve this if you touch path resolution in that skill.
 
@@ -89,13 +89,14 @@ Preserve this when touching transcription error handling.
 |---|---|---|
 | `lecture-enhance` | sibling `transcript_raw.md` + topic note | topic note (appends `[FROM LECTURE]` sections under `## From Lecture`) |
 | `slides-enhance` | slide deck + topic note | topic note (appends under `## From Slides`; flags conflicts with Obsidian callouts: `> [!CAUTION]` for contradictions, `> [!INFO]` for updates) |
-| `cleanup` | topic note + `Begreber.md` | topic note (rewritten to note level) + `<Course>/Begreber.md` (topic's section rebuilt) |
+| `cleanup` | topic note + `Begreber.md` | topic note (rewritten to note level) + `<Semester>/<Course>/Begreber.md` (topic's section rebuilt) |
 | `review-notes` | topic note + `exercises.md` | `exam_questions.md` (exam-format questions weighted toward concepts `exercises.md` under-covers; never deletes existing questions) |
 | `flashcards-make` | topic note | `flashcards.md` (`[Difficulty] Question \| Answer`, skips near-duplicates of existing cards, never deletes existing cards) |
-| `begreber-extract` | topic note | `<Course>/Begreber.md` (topic's section rebuilt, one line per term) |
+| `begreber-extract` | topic note | `<Semester>/<Course>/Begreber.md` (topic's section rebuilt, one line per term) |
 
-Every skill resolves the vault via `python3 scripts/config.py VAULT_PATH` from the
-repo root, and every skill must follow `STYLEGUIDE.md`'s formatting rules (bold key
+Every skill resolves the vault and semester via `python3 scripts/config.py
+VAULT_PATH` / `SEMESTER` from the repo root, uses the path pattern in README's
+"Vault layout" section, and every skill must follow `STYLEGUIDE.md`'s formatting rules (bold key
 terms, bullet points, no inline HTML, UTF-8, `[[wikilinks]]`) — the authoritative
 formatting source is `STYLEGUIDE.md`, not restated per-skill; skills point to it
 rather than duplicating its rules. `lecture-enhance`, `slides-enhance`, `review-notes`

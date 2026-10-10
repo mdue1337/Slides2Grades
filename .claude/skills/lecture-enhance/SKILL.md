@@ -10,17 +10,18 @@ Enhances a topic's note using the raw transcript produced by
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>/transcript_raw.md` — raw lecture
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>/transcript_raw.md` — raw lecture
   transcript, in the sibling folder of the note
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note (may be empty or
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note (may be empty or
   not yet exist; if it doesn't exist, treat it as having no existing
   content)
 
 Course and topic come from the skill arguments (`<course> <topic>`); if not
 supplied, ask.
 
-Resolve `<vault>` by running `python3 scripts/config.py VAULT_PATH` from the
-repo root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## What to do
 

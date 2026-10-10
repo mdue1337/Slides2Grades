@@ -19,17 +19,18 @@ rewrite.
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note. If it does not
   exist or is empty, say so rather than inventing terms. Accepts more than
   one topic in a single invocation.
-- `<vault>/<Course>/Begreber.md` — the target, created if absent, per
+- `<vault>/<Semester>/<Course>/Begreber.md` — the target, created if absent, per
   `STYLEGUIDE.md`.
 
 Course and topic come from the skill arguments; if not supplied, ask. Topics
 are named by note filename, not by week folder.
 
-Resolve `<vault>` by running `python3 scripts/config.py VAULT_PATH` from the
-repo root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## What to do
 
@@ -53,7 +54,7 @@ in `STYLEGUIDE.md`.
 
 ## Output
 
-Write `<vault>/<Course>/Begreber.md` back in place. Report which terms were
+Write `<vault>/<Semester>/<Course>/Begreber.md` back in place. Report which terms were
 added, which were skipped as already defined under another topic, and which
 glossary entries were removed or replaced. Then remind the user that `git diff`
 in the vault reviews the change.

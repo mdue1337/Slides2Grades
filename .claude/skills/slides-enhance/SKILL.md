@@ -12,15 +12,16 @@ slides add.
 
 - The slide deck for the topic (PDF, PPTX, or any readable text), read
   directly with the Read tool
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note (may not exist
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note (may not exist
   yet; if it doesn't, there's nothing to compare against, so treat all slide
   content as new — no possible contradiction)
 
 Course, topic, and the slide file path come from the skill arguments; if
 not supplied, ask.
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
-root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## What to do
 

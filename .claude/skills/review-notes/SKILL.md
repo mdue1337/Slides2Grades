@@ -10,17 +10,18 @@ Generates exam-format practice questions from a topic's note and its
 
 ## Inputs
 
-- `<vault>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md` — the topic note; may not exist
   yet or may be empty; if so, there's no source material to draw from, so say
   that rather than fabricating questions
-- `<vault>/<Course>/Week N/<NN - Title>/exercises.md` (if present) — treat
+- `<vault>/<Semester>/<Course>/Week N/<NN - Title>/exercises.md` (if present) — treat
   questions here as already-covered material, not to be repeated verbatim
 
 Course and topic come from the skill arguments (`<course> <topic>`); if not
 supplied, ask.
 
-Resolve `<vault>` via `python3 scripts/config.py VAULT_PATH` from the repo
-root.
+Resolve `<vault>` and `<Semester>` by running `python3 scripts/config.py
+VAULT_PATH` and `python3 scripts/config.py SEMESTER` from the repo root.
+If `SEMESTER` is not set, ask.
 
 ## What to do
 
@@ -48,5 +49,5 @@ root.
 
 ## Output
 
-Write the updated content to `<vault>/<Course>/Week N/<NN - Title>/exam_questions.md`,
+Write the updated content to `<vault>/<Semester>/<Course>/Week N/<NN - Title>/exam_questions.md`,
 the sibling folder of the note.
