@@ -1,5 +1,7 @@
 # Slides2Grades
 
+[![tests](https://github.com/mdue1337/Slides2Grades/actions/workflows/tests.yml/badge.svg)](https://github.com/mdue1337/Slides2Grades/actions/workflows/tests.yml)
+
 Tooling to turn lecture slides, recordings, and your own notes into a well-organized
 Obsidian vault, plus generated practice questions and flashcards. This repo holds the
 tooling only — your actual notes live in a separate Obsidian vault repo (e.g.
