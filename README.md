@@ -60,9 +60,9 @@ works in your shell.
    `PATH` — see `docs/windows-cuda-setup.md`.
 
 3. Set up automatic git backups for your vault — see
-   `docs/vault-git-setup.md` for Obsidian Git plugin configuration, and
-   `docs/vault-transcript-gitignore.md` for keeping raw transcripts out of
-   version control.
+   `docs/vault-git-setup.md` for Obsidian Git plugin configuration. Commit
+   `transcript_raw.md` files too: `progress.py` checks git history to tell
+   that a topic was transcribed after its transcript is deleted.
 
 ## Vault layout
 
