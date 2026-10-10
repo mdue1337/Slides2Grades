@@ -32,6 +32,7 @@ file — it's documented here because this repo owns the vault's structure.
 
    ```
    VAULT_PATH=/path/to/your/note-vault
+   SEMESTER=3. Semester
    WHISPER_MODEL_SIZE=large-v3
    WHISPER_DEVICE=cuda
    ```
@@ -53,7 +54,7 @@ file — it's documented here because this repo owns the vault's structure.
 | Step | Tool | What it does |
 |---|---|---|
 | New topic | (by hand) | Create `<Course>/Week N/` and the `<NN - Title>.md` note in Obsidian |
-| After a lecture recording | `scripts/transcribe.py <audio> <course> <topic>` | Runs faster-whisper locally, writes `transcript_raw.md` |
+| After a lecture recording | `scripts/transcribe.py <audio> <course> "<NN - Title>"` | Runs faster-whisper locally, writes `transcript_raw.md` into the note's sibling folder. The note must already exist; semester comes from `SEMESTER` in `config.env` or `--semester` |
 | After transcribing | `lecture-enhance` skill | Merges the transcript into the note, marked `[FROM LECTURE]` |
 | After slides are posted | `slides-enhance` skill | Adds what slides cover that notes miss, flags contradictions |
 | When a note has got long | `cleanup` skill | Rewrites the note down to note level and rebuilds its glossary section. Destructive; git is the undo |
