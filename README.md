@@ -92,6 +92,9 @@ repo and your vault; paths everywhere else in the repo are written against it.
 - You create semester, course, week folders and notes by hand. The sibling
   folder and the files in it are created by the tool that writes them.
 
+Defaults are Danish (`Begreber.md` is the glossary). Notes in any language
+work; see **Language defaults** in `STYLEGUIDE.md` to rename the glossary.
+
 ## Workflow: which tool, when
 
 | Step | Tool | What it does |

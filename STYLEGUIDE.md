@@ -1,5 +1,17 @@
 # Styleguide for LLM-Generated Content
 
+## Language defaults
+
+The defaults are Danish: the course glossary is `Begreber.md` with a
+`# Begreber — <Course>` header, and examples in this guide are Danish.
+Generated content always follows the source note's language, so English notes
+get English glossary entries — only the file name and header are fixed.
+
+To rename the glossary (e.g. to `Glossary.md`), replace `Begreber` in this
+file and in `.claude/skills/cleanup/SKILL.md` and
+`.claude/skills/begreber-extract/SKILL.md`, then rename the file in each
+course folder of your vault.
+
 ## Vault Structure
 
 Full path pattern: `<vault>/<Semester>/<Course>/Week N/<NN - Title>.md`. The
