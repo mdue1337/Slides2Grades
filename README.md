@@ -24,10 +24,16 @@ file — it's documented here because this repo owns the vault's structure.
 
 Requires Python 3.10 or newer.
 
+**Windows:** run the commands below in PowerShell, with `py` in place of
+`python3` (e.g. `py -m pytest -v`, `py scripts\transcribe.py ...`). The skills
+themselves run `python3 scripts/config.py ...`, so make sure `python3` also
+works in your shell.
+
 1. Copy the config template and point it at your vault:
 
    ```bash
-   cp config.example.env config.env
+   cp config.example.env config.env              # Linux/macOS
+   Copy-Item config.example.env config.env       # Windows PowerShell
    ```
 
    Edit `config.env`:
@@ -45,6 +51,9 @@ Requires Python 3.10 or newer.
    pip install -r requirements.txt        # faster-whisper, for transcription
    pip install -r requirements-dev.txt     # pytest, for running the test suite
    ```
+
+   On Windows, CUDA transcription also needs the cuBLAS/cuDNN runtime DLLs on
+   `PATH` — see `docs/windows-cuda-setup.md`.
 
 3. Set up automatic git backups for your vault — see
    `docs/note-vault-git-setup.md` for Obsidian Git plugin configuration, and
