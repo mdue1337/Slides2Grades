@@ -43,7 +43,11 @@ works in your shell.
    SEMESTER=3. Semester
    WHISPER_MODEL_SIZE=large-v3
    WHISPER_DEVICE=cuda
+   WHISPER_LANGUAGE=
    ```
+
+   Leave `WHISPER_LANGUAGE` blank to auto-detect, or set a code such as `da`.
+   Comments must sit on their own line.
 
 2. Install dependencies:
 
