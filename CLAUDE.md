@@ -23,7 +23,6 @@ python3 -m pytest -v                    # all Python tests
 python3 -m pytest tests/test_config.py -v          # single file
 python3 scripts/progress.py "3. Semester"          # regenerate the semester progress tracker
 python3 -m pytest tests/test_config.py::test_name -v  # single test
-bash deprecated/test_makenotes.sh       # deprecated tool, kept working (not pytest-collected)
 ```
 
 ## Architecture
@@ -63,8 +62,8 @@ repo root, or absolute). The six `.claude/skills/*/SKILL.md` files are Claude Co
 inside this repo. They are not available when Claude Code is opened in `note-vault`
 or elsewhere.
 
-**`makenotes.sh` is deprecated.** It lives in `deprecated/` and is not part
-of any workflow. Course and week folders are created by hand, and note
+**No scaffolding script.** The old `makenotes.sh` was removed; it was never
+part of any workflow. Course and week folders are created by hand, and note
 content comes from the vault's Obsidian template at
 `<vault>/_templates/topic-note.md`. Don't reintroduce scaffolding into the
 active scripts.

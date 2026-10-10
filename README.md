@@ -7,7 +7,7 @@ Obsidian vault, plus generated practice questions and flashcards. This repo hold
 tooling only — your actual notes live in a separate Obsidian vault repo (e.g.
 `note-vault`), never in here.
 
-See `docs/superpowers/specs/2026-07-27-slides2grades-design.md` for the full design.
+Design history (specs and plans, some now outdated) lives in `docs/dev/`.
 
 ## Relationship to Notes2Knowledge
 
@@ -120,7 +120,6 @@ auto-chaining pipeline.
 
 ```bash
 python3 -m pytest -v
-bash deprecated/test_makenotes.sh   # deprecated tool, kept working
 ```
 
 ## License
