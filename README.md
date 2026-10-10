@@ -22,6 +22,8 @@ file — it's documented here because this repo owns the vault's structure.
 
 ## Setup
 
+Requires Python 3.10 or newer.
+
 1. Copy the config template and point it at your vault:
 
    ```bash
