@@ -93,6 +93,7 @@ repo and your vault; paths everywhere else in the repo are written against it.
 | To refresh only the glossary | `begreber-extract` skill | Rebuilds a topic's section of `<Semester>/<Course>/Begreber.md`. Rewrites that section; git is the undo |
 | Closer to exam time | `review-notes` skill | Generates exam-style questions into `exam_questions.md` |
 | Any time | `flashcards-make` skill | Generates spaced-repetition cards into `flashcards.md` |
+| Any time | `scripts/progress.py "<Semester>"` | Regenerates `<Semester>/Progress.md`, showing which pipeline steps each topic still needs |
 
 All skills are run manually, one at a time, from within Claude Code — there's no
 auto-chaining pipeline.
