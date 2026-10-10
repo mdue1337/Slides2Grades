@@ -68,3 +68,7 @@ auto-chaining pipeline.
 python3 -m pytest -v
 bash deprecated/test_makenotes.sh   # deprecated tool, kept working
 ```
+
+## License
+
+MIT — see `LICENSE`.
