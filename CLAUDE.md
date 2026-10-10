@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this repo is
 
 Slides2Grades is tooling only — it holds scripts and Claude Code skills, never the
-user's actual notes. Notes live in a separate Obsidian vault repo (`note-vault`),
+user's actual notes. Notes live in the user's own Obsidian vault (a separate git repo),
 whose local path is read from `config.env` (gitignored; template is
 `config.example.env`). Never assume vault content lives in this repo, and never
 write vault content into this repo.
@@ -14,7 +14,7 @@ write vault content into this repo.
 
 ```bash
 # Setup
-cp config.example.env config.env   # then edit VAULT_PATH to point at the local note-vault checkout
+cp config.example.env config.env   # then edit VAULT_PATH to point at your vault
 pip install -r requirements.txt        # faster-whisper (real transcription)
 pip install -r requirements-dev.txt     # pytest
 
@@ -59,7 +59,7 @@ instead.
 with no PATH/symlink install — they only run via explicit path (relative, from the
 repo root, or absolute). The six `.claude/skills/*/SKILL.md` files are Claude Code
 *project* skills: auto-discovered only when Claude Code's working directory is
-inside this repo. They are not available when Claude Code is opened in `note-vault`
+inside this repo. They are not available when Claude Code is opened in your vault
 or elsewhere.
 
 **No scaffolding script.** The old `makenotes.sh` was removed; it was never

@@ -1,7 +1,7 @@
-# Setting Up Automatic Git Saves for note-vault
+# Setting Up Automatic Git Saves for Your Vault
 
 Slides2Grades does not automate git commits for your Obsidian vault. Instead,
-`note-vault` auto-saves itself using the Obsidian Git community plugin,
+the vault auto-saves itself using the Obsidian Git community plugin,
 configured directly in Obsidian.
 
 ## Setup
@@ -17,11 +17,11 @@ configured directly in Obsidian.
      doesn't commit on every keystroke
    - **Push on backup**: enabled, so commits are also pushed to GitHub
      automatically
-4. Confirm `note-vault` has a configured remote (`git remote -v` inside the
+4. Confirm your vault has a configured remote (`git remote -v` inside the
    vault folder) and that git credentials (SSH key or a GitHub PAT via the
    credential helper) are already set up on this machine — the plugin pushes
    using your existing git config, it doesn't manage credentials itself.
 5. Make a small test edit in any note, then either wait for the configured
    interval or run the plugin's "Backup and push" command from Obsidian's
    command palette. Confirm the commit shows up by running `git log -1`
-   inside `note-vault`.
+   inside the vault.

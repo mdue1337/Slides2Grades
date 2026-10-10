@@ -4,8 +4,8 @@
 
 Tooling to turn lecture slides, recordings, and your own notes into a well-organized
 Obsidian vault, plus generated practice questions and flashcards. This repo holds the
-tooling only — your actual notes live in a separate Obsidian vault repo (e.g.
-`note-vault`), never in here.
+tooling only — your actual notes live in your own Obsidian vault, a separate
+git repo, never in here.
 
 Design history (specs and plans, some now outdated) lives in `docs/dev/`.
 
@@ -39,7 +39,7 @@ works in your shell.
    Edit `config.env`:
 
    ```
-   VAULT_PATH=/path/to/your/note-vault
+   VAULT_PATH=/path/to/your/vault
    SEMESTER=3. Semester
    WHISPER_MODEL_SIZE=large-v3
    WHISPER_DEVICE=cuda
@@ -60,8 +60,8 @@ works in your shell.
    `PATH` — see `docs/windows-cuda-setup.md`.
 
 3. Set up automatic git backups for your vault — see
-   `docs/note-vault-git-setup.md` for Obsidian Git plugin configuration, and
-   `docs/note-vault-transcript-gitignore.md` for keeping raw transcripts out of
+   `docs/vault-git-setup.md` for Obsidian Git plugin configuration, and
+   `docs/vault-transcript-gitignore.md` for keeping raw transcripts out of
    version control.
 
 ## Vault layout
