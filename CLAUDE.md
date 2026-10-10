@@ -41,10 +41,13 @@ path, follow this same pattern instead of re-parsing `config.env`.
 pipeline status from what's actually on disk — a sibling `transcript_raw.md`
 means transcribed, a `[FROM LECTURE]`/`[FROM SLIDES]` marker still in the note
 means enhanced-but-not-cleaned, no marker (with a transcript present) means
-cleaned. `Enhanced` and `Slides-enhanced` are cumulative with `Cleaned`,
-because `cleanup` erases the marker that would otherwise prove enhancement
-happened — a topic that's been cleaned always reads as enhanced too, even
-though the literal marker is gone. The Core pipeline table only lists topics
+cleaned. `Enhanced` is cumulative with `Cleaned`, because `cleanup` erases
+the marker that would otherwise prove enhancement happened — a topic that's
+been cleaned always reads as enhanced too, even though the literal marker is
+gone. `Slides-enhanced` is deliberately *not* cumulative: slides-enhance is
+optional, so implying it from `Cleaned` would hide it from the reminder list
+forever. It reflects only a `[FROM SLIDES]` marker still in the note, so it
+reads as not done once a topic is cleaned. The Core pipeline table only lists topics
 still missing transcribed/enhanced/cleaned; once all three are true, a topic
 moves into the collapsed "Done" callout beneath it instead of staying listed
 twice. Enrichment and Exam prep stay unfiltered — they track separate,
