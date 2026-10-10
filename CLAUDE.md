@@ -110,7 +110,8 @@ diff` reviews the change and `git checkout` reverts it.
 
 **`tests/fixtures/sample_topic/`** holds shared fixture data (a binary-search-tree
 example: `notes.md`, `notes_bloated.md` — a deliberately over-written note the
-`cleanup` walk-through verifies against, `Begreber_legacy.md` — a glossary
+`cleanup` walk-through verifies against, `notes_cleaned.md` — its expected
+result and `cleanup`'s calibration reference, `Begreber_legacy.md` — a glossary
 holding both an old-format topic section and a hand-written theme-organised
 area, for walking `cleanup`'s Phase 2 rewrite against, `transcript_raw.md`,
 `slides.md`, `exercises.md`) used to

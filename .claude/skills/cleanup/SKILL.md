@@ -72,15 +72,11 @@ Beyond that standard:
    a note, nor add, move or remove highlights. Continue to Phase 2 regardless — refreshing a stale
    glossary against an already-clean note is a legitimate use of this skill.
 
-**Calibration.** The four notes in `<vault>/3. Semester/Introduktion til
-sandsynlighedsteori og statistik/` cleaned by hand — `01 - Mængder,
-Kardinalitet`, `02 - SS-mål og endelige udfaldsrum`, `03 - Betingede
-Sandsynligheder & Uafhængighed` and `05 - Diskrete stokastiske variabler og
-PMF` — are the reference output for how aggressive to be. Read one before a
-first run on a new course. If this skill produces materially different
-results on that input, the skill is wrong, not the notes. Highlights are
-excepted: those notes predate the highlight step, so added `==` marks are
-not a difference.
+**Calibration.** `tests/fixtures/sample_topic/notes_bloated.md` and its
+expected result, `notes_cleaned.md` in the same folder, are the reference for
+how aggressive to be, highlights included. Read the pair before a first run on
+a new course. If this skill produces materially different output from
+`notes_cleaned.md` on that input, the skill is wrong, not the fixture.
 
 ## Phase 2 — refresh the glossary
 
