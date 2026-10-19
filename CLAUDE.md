@@ -63,10 +63,8 @@ inside this repo. They are not available when Claude Code is opened in your vaul
 or elsewhere.
 
 **No scaffolding script.** The old `makenotes.sh` was removed; it was never
-part of any workflow. Course and week folders are created by hand, and note
-content comes from the vault's Obsidian template at
-`<vault>/_templates/topic-note.md`. Don't reintroduce scaffolding into the
-active scripts.
+part of any workflow. Course and week folders and topic notes are created by
+hand. Don't reintroduce scaffolding into the active scripts.
 
 **`Begreber.md` is course-level.** Every other skill reads and writes the
 topic note itself, `<Semester>/<Course>/Week N/<NN - Title>.md` (with its sibling
