@@ -40,15 +40,16 @@ Each course folder may hold a `.courseinfo.yaml` file, one level up from
 `Week N/` folders, alongside `Begreber.md`:
 
 ```yaml
-exam_type: written   # or: oral
+exam_type: written       # or: oral
+whisper_language: da     # optional; lecture language for transcribe.py
 ```
 
 This file is the shared contract between this repo and `Notes2Knowledge`
 (a separate, read-only companion tool): `exam_type` tells Notes2Knowledge
 whether to run Socratic quizzing (`written`) or explain-back practice
-(`oral`) for that course. Slides2Grades itself does not read this file —
-it is documented here because this is the single source of truth for the
-vault's structure, not because Slides2Grades consumes it.
+(`oral`) for that course. Slides2Grades reads only `whisper_language`:
+`scripts/transcribe.py` uses it over `WHISPER_LANGUAGE` in `config.env`,
+and `--language` overrides both.
 
 ## Format Rules
 - Use markdown headers (# ## ###)

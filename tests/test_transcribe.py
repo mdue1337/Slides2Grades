@@ -111,6 +111,26 @@ def test_main_writes_transcript_using_config(monkeypatch, tmp_path, capsys):
     assert scan_topics(vault_path, "3. Semester")[0].transcribed is True
 
 
+def test_main_language_precedence_flag_then_courseinfo_then_config(monkeypatch, tmp_path):
+    vault_path = tmp_path / "vault"
+    _write_note(vault_path, "3. Semester", "TestCourse", "Week 1", "01 - TestTopic")
+    config_file = tmp_path / "config.env"
+    config_file.write_text(f"VAULT_PATH={vault_path}\nSEMESTER=3. Semester\nWHISPER_LANGUAGE=da\n")
+    monkeypatch.setenv("CONFIG_PATH", str(config_file))
+    seen = []
+    monkeypatch.setattr("transcribe.transcribe_audio", lambda audio, size, device, language: seen.append(language) or "t")
+    audio_path = tmp_path / "lecture.wav"
+    audio_path.write_bytes(b"")
+    args = [str(audio_path), "TestCourse", "01 - TestTopic"]
+
+    main(args)  # no courseinfo: config wins
+    (vault_path / "3. Semester" / "TestCourse" / ".courseinfo.yaml").write_text("exam_type: oral\nwhisper_language: en  # lectures\n")
+    main(args)  # courseinfo beats config
+    main(args + ["--language", "de"])  # flag beats courseinfo
+
+    assert seen == ["da", "en", "de"]
+
+
 def test_main_semester_flag_overrides_config(monkeypatch, tmp_path):
     vault_path = tmp_path / "vault"
     _write_note(vault_path, "4. Semester", "TestCourse", "Week 1", "01 - TestTopic")

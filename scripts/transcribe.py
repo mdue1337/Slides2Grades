@@ -26,6 +26,18 @@ def find_note(vault_path: Path, semester: str, course: str, topic: str) -> Path:
     return matches[0]
 
 
+def read_course_language(course_dir: Path) -> str | None:
+    """`whisper_language` from the course's .courseinfo.yaml, or None if absent."""
+    courseinfo = course_dir / ".courseinfo.yaml"
+    if not courseinfo.is_file():
+        return None
+    for line in courseinfo.read_text(encoding="utf-8").splitlines():
+        key, _, value = line.partition(":")
+        if key.strip() == "whisper_language":
+            return value.partition("#")[0].strip() or None
+    return None
+
+
 def write_transcript(note_path: Path, text: str) -> Path:
     topic = note_path.stem
     topic_dir = note_path.parent / topic
@@ -41,7 +53,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("course")
     parser.add_argument("topic", help='Note filename without .md, e.g. "05 - Diskrete stokastiske variabler og PMF"')
     parser.add_argument("--semester", help="Semester folder under the vault; defaults to config SEMESTER")
-    parser.add_argument("--language", help="Override the source language (e.g. 'da'); defaults to config WHISPER_LANGUAGE or auto-detect")
+    parser.add_argument("--language", help="Override the source language (e.g. 'da'); defaults to the course's .courseinfo.yaml whisper_language, then config WHISPER_LANGUAGE, then auto-detect")
     args = parser.parse_args(argv)
 
     try:
@@ -56,7 +68,6 @@ def main(argv: list[str] | None = None) -> None:
 
     model_size = config.get("WHISPER_MODEL_SIZE", "large-v3")
     device = config.get("WHISPER_DEVICE", "cuda")
-    language = args.language or config.get("WHISPER_LANGUAGE")
 
     if not args.audio_path.exists():
         print(f"Audio file not found: {args.audio_path}", file=sys.stderr)
@@ -74,6 +85,7 @@ def main(argv: list[str] | None = None) -> None:
         print(str(e), file=sys.stderr)
         sys.exit(1)
 
+    language = args.language or read_course_language(vault_path / semester / args.course) or config.get("WHISPER_LANGUAGE")
     text = transcribe_audio(args.audio_path, model_size, device, language)
     output_path = write_transcript(note_path, text)
     print(f"Wrote transcript to {output_path}")
